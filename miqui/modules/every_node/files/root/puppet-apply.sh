@@ -7,8 +7,12 @@ export SYSCONF_DIR=puppet-config
 export SYSCONF_REPO=https://github.com/gmelabs/miqui.git
 export SYSCONF_NAME=miqui
 
-rm -fr ${SYSCONF_PATH}/${SYSCONF_DIR} >> $LOGFILE 2>&1
-cd ${SYSCONF_PATH} >> $LOGFILE 2>&1
-git clone ${SYSCONF_REPO} ${SYSCONF_DIR} >> $LOGFILE 2>&1
-cd ${SYSCONF_PATH}/${SYSCONF_DIR}/${SYSCONF_NAME} >> $LOGFILE 2>&1
-puppet apply --modulepath modules manifests/site.pp >> $LOGFILE 2>&1
+DATE=`date +%Y%m%d-%H%M%S`
+echo "$DATE Synchronize system configuration"         >> $LOGFILE 2>&1
+rm -fr ${SYSCONF_PATH}/${SYSCONF_DIR}                 >> $LOGFILE 2>&1
+cd ${SYSCONF_PATH}                                    >> $LOGFILE 2>&1
+git clone ${SYSCONF_REPO} ${SYSCONF_DIR}              >> $LOGFILE 2>&1
+cd ${SYSCONF_PATH}/${SYSCONF_DIR}/${SYSCONF_NAME}     >> $LOGFILE 2>&1
+puppet apply --modulepath modules manifests/site.pp   >> $LOGFILE 2>&1
+echo "System configuration synchronization finished!" >> $LOGFILE 2>&1
+echo "----------------------------------------------" >> $LOGFILE 2>&1
