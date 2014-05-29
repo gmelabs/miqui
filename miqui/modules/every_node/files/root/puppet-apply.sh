@@ -7,7 +7,7 @@ export SYSCONF_DIR=puppet-config
 export SYSCONF_REPO=https://github.com/gmelabs/miqui.git
 export SYSCONF_NAME=miqui
 
-DATE=`date +%Y%m%d-%H%M%S`
+DATE=`date +%Y-%m-%d %H:%M:%S`
 echo "$DATE Synchronize system configuration"         >> $LOGFILE 2>&1
 rm -fr ${SYSCONF_PATH}/${SYSCONF_DIR}                 >> $LOGFILE 2>&1
 cd ${SYSCONF_PATH}                                    >> $LOGFILE 2>&1
