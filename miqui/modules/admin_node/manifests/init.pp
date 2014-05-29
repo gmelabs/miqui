@@ -43,7 +43,7 @@ class admin_node {
   service { 'network':
     ensure     => running,
     enable     => true,
-    subscribe  => File['network.conf', 'eth0.conf', 'eth1.conf'],
+    subscribe  => File['network.conf', 'eth0.conf'],
   }
   file { 'anaconda-ks.conf':
     path   => '/var/lib/tftpboot/images/centos/6/x86_64/anaconda-ks-nodes-vm.cfg',
