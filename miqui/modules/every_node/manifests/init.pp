@@ -9,7 +9,7 @@ class every_node {
   }
   
   file { 'puppet-apply':
-    path   => '/root/puppet-apply',
+    path   => '/root/puppet-apply.sh',
     source => 'puppet:///modules/every_node/root/puppet-apply.sh',
     mode   => '0700',
   }
