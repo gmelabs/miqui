@@ -1,0 +1,16 @@
+DEFAULT         menu.c32
+PROMPT          0
+TIMEOUT         10
+ONTIMEOUT       Auto
+
+MENU TITLE CentOS 6 Installation Menu
+
+MENU            seperator
+LABEL           Manual
+KERNEL          images/centos/6/x86_64/isolinux/vmlinuz
+APPEND          initrd=images/centos/6/x86_64/isolinux/initrd.img method=http://192.168.1.29/centos/6/x86_64/ devfs=nomount
+
+MENU            seperator
+LABEL           Auto
+KERNEL          images/centos/6/x86_64/isolinux/vmlinuz
+APPEND          initrd=images/centos/6/x86_64/isolinux/initrd.img method=http://192.168.1.29/centos/6/x86_64/ devfs=nomount ks=http://192.168.1.29/centos/6/x86_64/anaconda-ks-nodes-vm.cfg
