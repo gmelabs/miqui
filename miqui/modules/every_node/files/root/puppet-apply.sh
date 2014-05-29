@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 export LOGFILE=/root/puppet.log
+export PUPPETLABS=http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
 export SYSCONF_PATH=/root
 export SYSCONF_DIR=puppet-config
 export SYSCONF_REPO=https://github.com/gmelabs/miqui.git
