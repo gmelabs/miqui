@@ -13,7 +13,7 @@ class every_node {
     source => 'puppet:///modules/every_node/root/puppet-apply.sh',
     mode   => '0700',
   }
-  cron { 'date_cron':
+  cron { 'puppet_cron':
     command => 'sh /root/puppet-apply.sh',
     minute => "*/5",
     user => "root",
