@@ -1,0 +1,3 @@
+class internal_node {
+  
+}
