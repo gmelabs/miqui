@@ -48,7 +48,7 @@ export HADOOP_LOG_DIR=/data/hadoop/logs
 # NOTE: this should be set to a directory that can only be written to by 
 #       the users that are going to run the hadoop daemons.  Otherwise there is
 #       the potential for a symlink attack.
-# export HADOOP_PID_DIR=/var/hadoop/pids
+export HADOOP_PID_DIR=/data/hadoop/pids
 
 # A string representing this instance of hadoop. $USER by default.
 # export HADOOP_IDENT_STRING=$USER
