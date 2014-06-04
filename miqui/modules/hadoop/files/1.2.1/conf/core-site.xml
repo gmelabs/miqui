@@ -14,10 +14,11 @@
 		<name>fs.default.name</name>
 		<value>hdfs://master01.bigdata:9000</value>
 	</property>
-
+	
+	<!-- SecondaryNameNode local path -->
 	<property>
 		<name>fs.checkpoint.dir</name>
-		<value>/data/hadoop/core-site-fs-checkpoint-dir</value>
+		<value>/data/hadoop/dfs/checkpoint</value>
 	</property>
 
 	<!-- <property> <name>dfs.umaskmode</name> <value>007</value> </property> -->
