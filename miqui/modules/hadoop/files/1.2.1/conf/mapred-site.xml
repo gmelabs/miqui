@@ -1,92 +1,122 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-
-<!-- Put site-specific property overrides in this file. -->
-
 <configuration>
-
+	
+	<!-- Mapreduce job logs history location on HDFS -->
 	<property>
 		<name>hadoop.job.history.location</name>
 		<value>/mapred/logs/history</value>
 	</property>
-
-  <property>
-    <name>mapred.job.tracker</name>
-    <value>master01.bigdata:9001</value>
-  </property>
-
-  <property>
-    <name>mapred.hosts</name>
-    <value>/home/hdadmin/runtime/hadoop/conf/included-nodes</value>
-  </property>
-
-  <property>
-    <name>mapred.hosts.exclude</name>
-    <value>/home/hdadmin/runtime/hadoop/conf/excluded-nodes</value>
-  </property>
-
-<!-- Cambiar luego dependiendo de los hilos de la máquina-->
-  <property>
-    <name>mapred.tasktracker.map.tasks.maximum</name>
-    <value>2</value>
-  </property>
-
-  <property>
-    <name>mapred.tasktracker.reduce.tasks.maximum</name>
-    <value>1</value>
-  </property>
-
-  <property>
-    <name>mapred.reduce.slowstart.completed.maps</name>
-    <value>0.8</value>
-  </property>
-
-  <property>
-    <name>mapred.map.tasks.speculative.execution</name>
-    <value>true</value>
-  </property>
-
-  <property>
-    <name>mapred.local.dir</name>
-    <value>/data/hadoop/mapred/local</value>
-  </property>
-  <property>
-    <name>mapred.system.dir</name>
-    <value>/mapred/system</value>
-  </property>
-  <property>
-    <name>mapreduce.jobtracker.staging.root.dir</name>
-    <value>/user</value>
-  </property>
-  <property>
-    <name>mapred.temp.dir</name>
-    <value>/mapred/temp</value>
-  </property>
-
-<!-- Cambiar luego por el número de workers-->
-  <property>
-    <name>mapred.submit.replication</name>
-    <value>3</value>
-  </property>
-
-  <property>
-    <name>mapred.compress.map.output</name>
-    <value>true</value>
-  </property>
-
-  <property>
-    <name>mapred.output.compression.type</name>
-    <value>BLOCK</value>
-  </property>
-
-  <property>
-    <name>mapred.child.java.opts</name>
-    <value>-Xmx1024M</value>
-  </property>
-
-  <property>
-    <name>mapred.jobtracker.taskScheduler</name>
-    <value>org.apache.hadoop.mapred.FairScheduler</value>
-  </property>
-
+	
+	<!-- Deletion of job history files -->
+	<!-- Max age of files before delete: 30 days = 2592000000 ms -->
+	<property>
+		<name>mapreduce.jobhistory.max-age-ms</name>
+		<value>2592000000</value>
+	</property>
+	<!-- Check it each: 24 hrs = 86400000 ms -->
+	<property>
+		<name>mapreduce.jobhistory.cleaner.interval-ms</name>
+		<value>86400000</value>
+	</property>
+	
+	<!-- Jobtracker host and port -->
+	<property>
+		<name>mapred.job.tracker</name>
+		<value>master01.bigdata:9001</value>
+	</property>
+	
+	<!-- Jobtracker http address -->
+	<property>
+		<name>mapred.job.tracker.http.address</name>
+		<value>master01.bigdata:50030</value>
+	</property>
+	
+	<!-- Distributed cache local path -->
+	<property>
+		<name>mapred.local.dir</name>
+		<value>/data/hadoop/mapred/local</value>
+	</property>
+	
+	<!-- Jobtracker and Tasktrackers HDFS paths -->
+	<property>
+		<name>mapred.system.dir</name>
+		<value>/mapred/system</value>
+	</property>
+	<property>
+		<name>mapreduce.jobtracker.staging.root.dir</name>
+		<value>/user</value>
+	</property>
+	<property>
+		<name>mapred.temp.dir</name>
+		<value>/mapred/temp</value>
+	</property>
+	
+	<!-- Scheduler to use: FairScheduler -->
+	<property>
+		<name>mapred.jobtracker.taskScheduler</name>
+		<value>org.apache.hadoop.mapred.FairScheduler</value>
+	</property>
+	
+	<!-- 4 cpus hexa core with 2 threads per core = 48 tasks: 32 map + 16 red -->
+	<property>
+		<name>mapred.tasktracker.map.tasks.maximum</name>
+		<value>2</value>
+	</property>
+	<!-- Half reducers mappers -->
+	<property>
+		<name>mapred.tasktracker.reduce.tasks.maximum</name>
+		<value>1</value>
+	</property>
+	
+	<!-- Max. Heap memory used for tasks -->
+	<property>
+		<name>mapred.child.java.opts</name>
+		<value>-Xmx1024M</value>
+	</property>
+	
+	<!-- Speculative execution for mappers, but not for reducers -->
+	<property>
+		<name>mapred.map.tasks.speculative.execution</name>
+		<value>true</value>
+	</property>
+	<property>
+		<name>mapred.reduce.tasks.speculative.execution</name>
+		<value>false</value>
+	</property>
+	
+	<!-- Repplication factor = Number of workers -->
+	<property>
+		<name>mapred.submit.replication</name>
+		<value>3</value>
+	</property>
+	
+	<!-- By default, compress mapper's output data by block -->
+	<property>
+		<name>mapred.output.compression.type</name>
+		<value>BLOCK</value>
+	</property>
+	<property>
+		<name>mapred.compress.map.output</name>
+		<value>true</value>
+	</property>
+	
+	<!-- Allowed Tasktrackers -->
+	<property>
+		<name>mapred.hosts</name>
+		<value>/home/hdadmin/runtime/hadoop/conf/included-nodes</value>
+	</property>
+	
+	<!-- Decommissioned (or powered off) Tasktrackers -->
+	<property>
+		<name>mapred.hosts.exclude</name>
+		<value>/home/hdadmin/runtime/hadoop/conf/excluded-nodes</value>
+	</property>
+	
+	<!-- Percentage of finished mappers of a job before starting reducers: 80% -->
+	<property>
+		<name>mapred.reduce.slowstart.completed.maps</name>
+		<value>0.8</value>
+	</property>
+	
 </configuration>
