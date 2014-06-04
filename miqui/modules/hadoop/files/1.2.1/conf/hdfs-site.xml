@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <!-- Máquinas permitidas en el cluster como DataNode -->
+  <property>
+    <name>dfs.hosts</name>
+    <value>/home/hdadmin/runtime/hadoop/conf/included-nodes</value>
+  </property>
+  <!-- Máquinas decomisionadas o apagadas como DataNode -->
+  <property>
+    <name>dfs.hosts.exclude</name>
+    <value>/home/hdadmin/runtime/hadoop/conf/excluded-nodes</value>
+  </property>
+  <!-- Configuración de minimos para el arranque -->
+  <property>
+    <name>dfs.safemode.threshold.pct</name>
+    <value>0.99f</value>
+  </property>
+  <property>
+  <!--
+  <property>
+    <name>dfs.namenode.safemode.min.datanodes</name>
+    <value>4</value>
+  </property>
+  -->
+    <name>dfs.replication</name>
+    <value>2</value>
+  </property>
+
+  <property>
+    <name>dfs.name.dir</name>
+    <value>/data/hadoop/data/dfs/name</value>
+  </property>
+
+  <property>
+    <name>dfs.data.dir</name>
+    <value>/data/hadoop/data</value>
+  </property>
+
+
+
+
+
+
+  <property>
+    <name>dfs.block.size</name>
+    <value>134217728</value>
+  </property>
+
+  <property>
+    <name>dfs.permissions</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>dfs.webhdfs.enabled</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>dfs.http.address</name>
+    <value>master01.bigdata:50070</value>
+  </property>
+
+  <property>
+    <name>dfs.secondary.http.address</name>
+    <value>secondaryNameNode:50090</value>
+  </property>
+
+</configuration>
