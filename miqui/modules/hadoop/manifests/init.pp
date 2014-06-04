@@ -98,7 +98,7 @@ class hadoop {
   }
   file { 'hadoop-env':
     path    => '/home/hdadmin/software/hadoop-1.2.1/conf/hadoop-env.sh',
-    source  => 'puppet:///modules/hadoop/1.2.1/conf/fair-scheduler.sh',
+    source  => 'puppet:///modules/hadoop/1.2.1/conf/hadoop-env.sh',
     mode    => '0644',      # XXX wouldn't they want to execute?
     owner   => 'hdadmin',
     group   => 'hadoop',
@@ -144,9 +144,9 @@ class hadoop {
     group   => 'hadoop',
     require => File['hadoop-installed.flag'],
   }
-  file { 'mapred-queue-ads':
-    path    => '/home/hdadmin/software/hadoop-1.2.1/conf/mapred-queue-ads.xml',
-    source  => 'puppet:///modules/hadoop/1.2.1/conf/mapred-queue-ads.xml',
+  file { 'mapred-queue-acls':
+    path    => '/home/hdadmin/software/hadoop-1.2.1/conf/mapred-queue-acls.xml',
+    source  => 'puppet:///modules/hadoop/1.2.1/conf/mapred-queue-acls.xml',
     mode    => '0644',
     owner   => 'hdadmin',
     group   => 'hadoop',
