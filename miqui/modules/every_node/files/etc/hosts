@@ -16,5 +16,5 @@
 192.168.1.41  shared01.bigdata  # Nodo de trabajo Nº 7 cluster big data / Shared-1
 192.168.1.42  shared02.bigdata  # Nodo de trabajo Nº 8 cluster big data / Shared-2
 #------------------------------------------------------------------------------------
-192.168.1.29  madbd00           # Nodo de administracion
+192.168.1.29  vmmadbd00         # Nodo de administracion
 #------------------------------------------------------------------------------------
