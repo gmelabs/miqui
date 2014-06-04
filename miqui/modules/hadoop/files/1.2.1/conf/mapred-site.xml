@@ -5,6 +5,11 @@
 
 <configuration>
 
+	<property>
+		<name>hadoop.job.history.location</name>
+		<value>/mapred/logs/history</value>
+	</property>
+
   <property>
     <name>mapred.job.tracker</name>
     <value>master01.bigdata:9001</value>
