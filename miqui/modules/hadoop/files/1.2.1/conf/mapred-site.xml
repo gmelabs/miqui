@@ -43,7 +43,7 @@
 
   <property>
     <name>mapred.system.dir</name>
-    <value>/data/hadoop/mapred/system</value>
+    <value>/mapred/system</value>
   </property>
 
   <property>
