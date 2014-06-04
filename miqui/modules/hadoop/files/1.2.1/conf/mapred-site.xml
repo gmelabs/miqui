@@ -14,7 +14,7 @@
 		<name>mapreduce.jobhistory.max-age-ms</name>
 		<value>2592000000</value>
 	</property>
-	<!-- Check it each: 24 hrs = 86400000 ms -->
+	<!-- Check it every: 24 hrs = 86400000 ms -->
 	<property>
 		<name>mapreduce.jobhistory.cleaner.interval-ms</name>
 		<value>86400000</value>
@@ -32,7 +32,7 @@
 		<value>master01.bigdata:50030</value>
 	</property>
 	
-	<!-- Distributed cache local path -->
+	<!-- Distributed cache local paths -->
 	<property>
 		<name>mapred.local.dir</name>
 		<value>/data/hadoop/mapred/local</value>
