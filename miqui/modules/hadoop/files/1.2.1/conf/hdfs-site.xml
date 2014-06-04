@@ -14,7 +14,7 @@
 		<value>master01.bigdata:50070</value>
 	</property>
 	
-	<!-- Namenode local path -->
+	<!-- Namenode local paths -->
 	<property>
 		<name>dfs.name.dir</name>
 		<value>/data/hadoop/dfs/name</value>
