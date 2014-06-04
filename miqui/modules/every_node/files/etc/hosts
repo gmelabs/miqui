@@ -1,21 +1,20 @@
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
-#-------------------------------------------------------------------------------
-192.168.1.11  master01      # Nodo maestro Nº 1 cluster big data
-192.168.1.12  master02      # Nodo maestro Nº 2 cluster big data
-#===============================================================================
-192.168.1.21  services01    # Nodo de servicios para cluster big data
-#-------------------------------------------------------------------------------
-192.168.1.31  worker01      # Nodo de trabajo Nº 1 cluster big data
-192.168.1.32  worker02      # Nodo de trabajo Nº 2 cluster big data
-192.168.1.33  worker03      # Nodo de trabajo Nº 3 cluster big data
-#-------------------------------------------------------------------------------
-192.168.1.41  lab01         # Nodo de trabajo Nº 4 cluster big data / Lab-1
-192.168.1.42  lab02         # Nodo de trabajo Nº 5 cluster big data / Lab-2
-#-------------------------------------------------------------------------------
-192.168.1.51  shared01      # Nodo de trabajo Nº 6 cluster big data / Shared-1
-192.168.1.52  shared02      # Nodo de trabajo Nº 7 cluster big data / Shared-2
-#-------------------------------------------------------------------------------
-192.168.1.29  madbd00       # Nodo de administracion
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+192.168.1.11  master01.bigdata  # Nodo maestro Nº 1 cluster big data
+192.168.1.12  master02.bigdata  # Nodo maestro Nº 2 cluster big data
+#====================================================================================
+192.168.1.21  worker01.bigdata  # Nodo de trabajo Nº 1 cluster big data
+192.168.1.22  worker02.bigdata  # Nodo de trabajo Nº 2 cluster big data
+192.168.1.23  worker03.bigdata  # Nodo de trabajo Nº 3 cluster big data
+192.168.1.24  worker04.bigdata  # Nodo de trabajo Nº 4 cluster big data
+#------------------------------------------------------------------------------------
+192.168.1.31  lab01.bigdata     # Nodo de trabajo Nº 5 cluster big data / Lab-1
+192.168.1.32  lab02.bigdata     # Nodo de trabajo Nº 6 cluster big data / Lab-2
+#------------------------------------------------------------------------------------
+192.168.1.41  shared01.bigdata  # Nodo de trabajo Nº 7 cluster big data / Shared-1
+192.168.1.42  shared02.bigdata  # Nodo de trabajo Nº 8 cluster big data / Shared-2
+#------------------------------------------------------------------------------------
+192.168.1.29  madbd00           # Nodo de administracion
+#------------------------------------------------------------------------------------

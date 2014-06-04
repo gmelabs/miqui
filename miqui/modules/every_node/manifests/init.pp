@@ -7,7 +7,21 @@ class every_node {
     owner  => 'root',
     group  => 'root',
   }
-  
+  file { '.ssh':
+    path   => '/root/.ssh',
+    ensure => 'directory',
+    mode   => '0700',
+    owner  => 'root',
+    group  => 'root',
+  }
+  file { 'known_hosts':
+    path   => '/root/.ssh/known_hosts',
+    source => 'puppet:///modules/every_node/root/.ssh/known_hosts',
+    mode   => '0644',
+    owner  => 'root',
+    group  => 'root',
+    require => File['.ssh'],
+  }
   file { 'puppet-apply':
     path   => '/root/puppet-apply.sh',
     source => 'puppet:///modules/every_node/root/puppet-apply.sh',
@@ -17,5 +31,8 @@ class every_node {
     command => 'sh /root/puppet-apply.sh',
     minute => "*/5",
     user => "root",
+  }
+  package { 'tftp':
+    ensure => installed,
   }
 }
