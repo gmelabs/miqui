@@ -7,7 +7,7 @@
 
   <property>
     <name>mapred.job.tracker</name>
-    <value>master:9001</value>
+    <value>master01.bigdata:9001</value>
   </property>
 
   <property>
@@ -23,12 +23,12 @@
 <!-- Cambiar luego dependiendo de los hilos de la máquina-->
   <property>
     <name>mapred.tasktracker.map.tasks.maximum</name>
-    <value>12</value>
+    <value>2</value>
   </property>
 
   <property>
     <name>mapred.tasktracker.reduce.tasks.maximum</name>
-    <value>6</value>
+    <value>1</value>
   </property>
 
   <property>
