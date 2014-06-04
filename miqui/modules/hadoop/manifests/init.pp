@@ -30,6 +30,14 @@ class hadoop {
      group   => 'hadoop',
      require => User['hdadmin'],
   }
+  file { 'hadoop-data':
+     path    => '/data/hadoop',
+     ensure  => directory,
+     mode    => '0755',
+     owner   => 'hdadmin',
+     group   => 'hadoop',
+     require => User['hdadmin'],
+  }
   service { 'iptables':
     ensure => stopped,
   }
