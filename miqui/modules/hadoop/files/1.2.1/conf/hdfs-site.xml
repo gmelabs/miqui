@@ -29,12 +29,12 @@
 
   <property>
     <name>dfs.name.dir</name>
-    <value>/data/hadoop/data/dfs/name</value>
+    <value>/data/hadoop/dfs/name</value>
   </property>
 
   <property>
     <name>dfs.data.dir</name>
-    <value>/data/hadoop/data</value>
+    <value>/data/hadoop/dfs/data</value>
   </property>
 
 
