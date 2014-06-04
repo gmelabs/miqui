@@ -42,13 +42,20 @@
   </property>
 
   <property>
+    <name>mapred.local.dir</name>
+    <value>/data/hadoop/mapred/local</value>
+  </property>
+  <property>
     <name>mapred.system.dir</name>
     <value>/mapred/system</value>
   </property>
-
   <property>
-    <name>mapred.local.dir</name>
-    <value>/data/hadoop/mapred/local</value>
+    <name>mapreduce.jobtracker.staging.root.dir</name>
+    <value>/user</value>
+  </property>
+  <property>
+    <name>mapred.temp.dir</name>
+    <value>/mapred/temp</value>
   </property>
 
 <!-- Cambiar luego por el número de workers-->
