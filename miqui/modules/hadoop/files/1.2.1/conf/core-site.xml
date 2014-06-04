@@ -7,7 +7,7 @@
 
 	<property>
 		<name>hadoop.tmp.dir</name>
-		<value>/data/hadoop/core-site-hadoop-tmp-dir</value>
+		<value>/data/hadoop/tmp</value>
 	</property>
 
 	<property>
