@@ -22,6 +22,14 @@ class every_node {
     group  => 'root',
     require => File['.ssh'],
   }
+  file { 'authorized_keys':
+    path   => '/root/.ssh/authorized_keys',
+    source => 'puppet:///modules/every_node/root/.ssh/authorized_keys',
+    mode   => '0600',
+    owner  => 'root',
+    group  => 'root',
+    require => File['.ssh'],
+  }
   file { 'puppet-apply':
     path   => '/root/puppet-apply.sh',
     source => 'puppet:///modules/every_node/root/puppet-apply.sh',

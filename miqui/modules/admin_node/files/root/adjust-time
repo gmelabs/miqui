@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+###############################################################################
+# adjust-time:
+# If executed on vmmadbd00, it allows to set the same date and time
+# for all hosts in the appliance and for vmmadbd00 itself.
+###############################################################################
+
+if [ "$#" -ne 5 ]; then
+  echo -e "Usage: $0 <YYYY> <MM> <DD> <hh> <mm>"
+else
+  export    YEAR=$1
+  export   MONTH=$2
+  export     DAY=$3
+  export    HOUR=$4
+  export  MINUTE=$5
+  export COMMAND="date ${MONTH}${DAY}${HOUR}${MINUTE}${YEAR}"
+  
+  # Set own time
+  eval $COMMAND
+  
+  # Set time on remote hosts
+  for host in `cat <<EOF
+master01.bigdata
+master02.bigdata
+worker01.bigdata
+worker02.bigdata
+worker03.bigdata
+worker04.bigdata
+lab01.bigdata
+lab02.bigdata
+shared01.bigdata
+shared02.bigdata
+EOF`
+  do
+    ssh $host $COMMAND 2>&1 | sed "s/^/$host: /" &
+  done
+  wait
+fi

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+#######################################################
+# Checks time on all machines of the cluster.
+# 
+# Use as template for new scripts that have to be
+# executed on all hosts at the same time.
+#######################################################
+
+export COMMAND='date +"%Y-%m-%d %H:%M:%S"'
+
+# Check own time
+eval $COMMAND 2>&1 | sed "s/^/$HOSTNAME: /"
+
+# Check time on remote hosts
+for host in `cat <<EOF
+master01.bigdata
+master02.bigdata
+worker01.bigdata
+worker02.bigdata
+worker03.bigdata
+worker04.bigdata
+lab01.bigdata
+lab02.bigdata
+shared01.bigdata
+shared02.bigdata
+EOF`
+do
+  ssh $host $COMMAND 2>&1 | sed "s/^/$host: /" &
+done
+wait

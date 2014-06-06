@@ -45,6 +45,14 @@ class admin_node {
     enable     => true,
     subscribe  => File['network.conf', 'eth0.conf'],
   }
+  file { 'id_rsa.pub':
+    path   => '/root/.ssh/id_rsa.pub',
+    source => 'puppet:///modules/admin_node/root/.ssh/id_rsa.pub',
+    mode   => '0644',
+    owner  => 'root',
+    group  => 'root',
+    require => File['.ssh'],
+  }
   file { 'anaconda-ks.conf':
     path   => '/var/lib/tftpboot/images/centos/6/x86_64/anaconda-ks-nodes-vm.cfg',
     source => 'puppet:///modules/admin_node/var/lib/tftpboot/images/centos/6/x86_64/anaconda-ks-nodes-vm.cfg',
@@ -56,6 +64,20 @@ class admin_node {
     path   => '/var/lib/tftpboot/pxelinux.cfg/default',
     source => 'puppet:///modules/admin_node/var/lib/tftpboot/pxelinux.cfg/default',
     mode   => '0644',
+    owner  => 'root',
+    group  => 'root',
+  }
+  file { 'adjust-time':
+    path   => '/root/adjust-time',
+    source => 'puppet:///modules/admin_node/root/adjust-time',
+    mode   => '0744',
+    owner  => 'root',
+    group  => 'root',
+  }
+  file { 'check-time':
+    path   => '/root/check-time',
+    source => 'puppet:///modules/admin_node/root/check-time',
+    mode   => '0744',
     owner  => 'root',
     group  => 'root',
   }
