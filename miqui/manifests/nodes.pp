@@ -8,6 +8,7 @@ node 'master01.bigdata' {
 node 'worker01.bigdata' {
   include every_node
   include hadoop
+  include elasticsearch
 }
 node 'worker02.bigdata' {
   include every_node
