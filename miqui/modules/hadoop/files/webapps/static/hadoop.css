@@ -1,3 +1,6 @@
+/* HEADER: This file is managed by puppet.
+ * HEADER: It cannot be managed manually, and it is definitely not recommended.
+ */
 /*
 * Licensed to the Apache Software Foundation (ASF) under one or more
 * contributor license agreements.  See the NOTICE file distributed with

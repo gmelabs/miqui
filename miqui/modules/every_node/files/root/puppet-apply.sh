@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# HEADER: This file is managed by puppet.
+# HEADER: It cannot be managed manually, and it is definitely not recommended.
 
 export LOGFILE=/root/puppet.log
 export PUPPETLABS=http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm

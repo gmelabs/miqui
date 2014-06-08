@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
+<!-- HEADER: This file is managed by puppet. -->
+<!-- HEADER: It cannot be managed manually, and it is definitely not recommended. -->
 
 <!-- This is the configuration file for the resource manager in Hadoop. -->
 <!-- You can configure various scheduling parameters related to queues. -->

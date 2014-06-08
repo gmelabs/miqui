@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
+# HEADER: This file is managed by puppet.
+# HEADER: It cannot be managed manually, and it is definitely not recommended.
 
 ######################################################################################
-# Necesita otra versión de Java, distinta que hadoop, así que
+# Necesita otra versiÃ³n de Java, distinta que hadoop, asÃ­ que
 # tendremos dos javas, una en cada home/software
 ######################################################################################
 # Usage: /home/esadmin/runtime/elasticsearch/bin/elasticsearch [-d] [-h] [-p pidfile]

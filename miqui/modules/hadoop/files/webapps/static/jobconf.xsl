@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
+<!-- HEADER: This file is managed by puppet. -->
+<!-- HEADER: It cannot be managed manually, and it is definitely not recommended. -->
+
 <!--
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

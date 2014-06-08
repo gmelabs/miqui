@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!-- HEADER: This file is managed by puppet. -->
+<!-- HEADER: It cannot be managed manually, and it is definitely not recommended. -->
+
 <configuration>
 	
 	<!-- SecondaryNamenode http address -->

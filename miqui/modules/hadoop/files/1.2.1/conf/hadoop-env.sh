@@ -1,3 +1,6 @@
+# HEADER: This file is managed by puppet.
+# HEADER: It cannot be managed manually, and it is definitely not recommended.
+
 # Set Hadoop-specific environment variables here.
 
 # The only required environment variable is JAVA_HOME.  All others are

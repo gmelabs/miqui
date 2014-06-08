@@ -1,3 +1,6 @@
+# HEADER: This file is managed by puppet.
+# HEADER: It cannot be managed manually, and it is definitely not recommended.
+
 production:
   # The following is annotated default settings for your Gitorious install. In
   # order for Gitorious to function properly, you _must_ tend to some of these
