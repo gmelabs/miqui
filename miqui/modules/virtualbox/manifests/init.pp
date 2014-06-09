@@ -4,7 +4,8 @@ class virtualbox {
     baseurl  => 'http://download.virtualbox.org/virtualbox/rpm/el/$releasever/$basearch',
     descr    => 'VirtualBox repository',
     enabled  => 1,
-    gpgcheck => 0,
+    gpgcheck => 1,
+    gpgkey => 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc',
   }
   
   package { 'VirtualBox-4.3': 
