@@ -4,7 +4,6 @@ node 'newnode' {
 node 'master01.bigdata' {
   include every_node
   include hadoop
-  include virtualbox
 }
 node 'worker01.bigdata' {
   include every_node
@@ -14,4 +13,9 @@ node 'worker01.bigdata' {
 node 'worker02.bigdata' {
   include every_node
   include hadoop
+}
+node 'lab01.bigdata'{
+  include every_node
+  include hadoop
+  include virtualbox
 }
