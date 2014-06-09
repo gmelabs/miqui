@@ -36,7 +36,7 @@ class hadoop {
      group   => 'hadoop',
      require => File['hdadmin_home'],
   }
-  file { [ '/data', '/data/hadoop']:
+  file { [ '/data/', '/data/hadoop']:
      ensure  => directory,
      mode    => '0755',
      owner   => 'hdadmin',
