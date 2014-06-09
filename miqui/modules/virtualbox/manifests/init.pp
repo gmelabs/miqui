@@ -7,7 +7,8 @@ class virtualbox {
     gpgcheck => 0,
   }
   
-  package { 'virtualbox-4.3': 
-    ensure => installed, 
+  package { 'VirtualBox-4.3': 
+    ensure  => installed, 
+    require => Yumrepo['virtualbox'],
   }
 }
