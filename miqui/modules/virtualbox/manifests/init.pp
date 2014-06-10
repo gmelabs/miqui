@@ -11,7 +11,7 @@ class virtualbox {
   package { 'VirtualBox-4.3': 
     ensure  => installed, 
     require => [
-    Yumrepo['virtualbox', 'epel'],
+    Yumrepo['virtualbox'],
     Package[$requiredVBpackages],
     ]
   }
