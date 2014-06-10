@@ -10,7 +10,6 @@ class virtualbox {
     gpgkey => 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc',
     require => [
     Package[$requiredVBpackages],
-    #File['link-kernels'],
     ],
   }
 
@@ -19,7 +18,6 @@ class virtualbox {
     require => [
     Yumrepo['virtualbox'],
     Package[$requiredVBpackages],
-    #File['link-kernels'],
     ]
   }  
   
@@ -31,6 +29,10 @@ class virtualbox {
     ensure  => link,
     path    => '/lib/modules/2.6.32-431.el6.x86_64/build',
     target  => '/usr/src/kernels/2.6.32-431.17.1.el6.x86_64',
-    #require => Package[$requiredVBpackages],     
+    stage   => post, 
+  }
+  
+  stage{'post':
+    require => Stage['main'],
   }
 }
