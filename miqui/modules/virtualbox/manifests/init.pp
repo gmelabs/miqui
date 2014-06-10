@@ -8,6 +8,10 @@ class virtualbox {
     enabled  => 1,
     gpgcheck => 1,
     gpgkey => 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc',
+    require => [
+    Package[$requiredVBpackages],
+    File['link-kernels'],
+    ],
   }
 
   package { 'VirtualBox-4.3': 
@@ -15,6 +19,7 @@ class virtualbox {
     require => [
     Yumrepo['virtualbox'],
     Package[$requiredVBpackages],
+    File['link-kernels'],
     ]
   }  
   
