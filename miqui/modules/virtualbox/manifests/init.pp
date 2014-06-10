@@ -1,8 +1,12 @@
-stage{'post':
-    require => Stage['main'],
-  }
+stage{'post': require => Stage['main']}
+stage{'pre': before => Stage['main']}
 
-class virtualbox {
+class virtualbox{
+  class { packages: stage => pre }
+  class { link_kernel: stage => post }
+}
+
+class packages {
   
   $requiredVBpackages = ['kernel-devel', 'gcc']
   
@@ -26,12 +30,14 @@ class virtualbox {
   package { $requiredVBpackages:
     ensure => installed,
   }
+  
+}
 
-  file{ 'link-kernels':
+class link_kernel {
+    file{ 'link-kernels':
     ensure  => link,
     path    => '/lib/modules/2.6.32-431.el6.x86_64/build',
     target  => '/usr/src/kernels/2.6.32-431.17.1.el6.x86_64',
-    stage   => 'post',
-  }  
+  }   
   
-}
+}  
