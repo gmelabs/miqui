@@ -37,7 +37,7 @@ class every_node {
   }
   cron { 'puppet_cron':
     command => 'sh /root/puppet-apply.sh',
-    minute => "*/5",
+    minute => "*/10",
     user => "root",
   }
   package { 'tftp':
