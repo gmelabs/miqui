@@ -14,11 +14,11 @@ class virtualbox {
     gpgkey   => 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc',
   }
   
-  package { 'VirtualBox-4.3': 
+  package { 'VirtualBox-4.3':
     ensure  => installed,
     require => [
-	    Yumrepo['virtualbox'],
-	    Package[$requiredVBpackages],
-	  ]
+      Yumrepo['virtualbox'],
+      Package[$requiredVBpackages],
+    ],
   }
 }
