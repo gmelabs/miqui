@@ -1,9 +1,6 @@
-stage{'post': require => Stage['main']}
-stage{'pre': before => Stage['main']}
-
 class virtualbox{
-  class { packages: stage => pre }
-  class { link_kernel: stage => post }
+  class { packages: require => Stage['main'] }
+  class { link_kernel: before => Stage['main'] }
 }
 
 class packages {
