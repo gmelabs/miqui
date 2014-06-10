@@ -28,7 +28,7 @@ class virtualbox {
     ensure  => link,
     path    => '/lib/modules/2.6.32-431.el6.x86_64/build',
     target  => '/usr/src/kernels/2.6.32-431.17.1.el6.x86_64',
-    require   => post, 
+    require   => Stage['post'], 
   }
   
   stage{'post':
