@@ -36,12 +36,21 @@ class hadoop {
      group   => 'hadoop',
      require => File['hdadmin_home'],
   }
-  file { [ '/data/', '/data/hadoop']:
+  file { 'base_datadir':
+     path    => '/data',
      ensure  => directory,
      mode    => '0755',
      owner   => 'hdadmin',
      group   => 'hadoop',
      require => User['hdadmin'],
+  }
+  file { 'hadoop-data':
+     path    => '/data/hadoop',
+     ensure  => directory,
+     mode    => '0755',
+     owner   => 'hdadmin',
+     group   => 'hadoop',
+     require => File['base_datadir'],
   }
   service { 'iptables':
     ensure => stopped,
