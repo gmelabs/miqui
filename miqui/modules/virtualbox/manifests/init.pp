@@ -8,9 +8,7 @@ class virtualbox {
     enabled  => 1,
     gpgcheck => 1,
     gpgkey => 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc',
-    require => [
-    Package[$requiredVBpackages],
-    ],
+    require => Package[$requiredVBpackages],
   }
 
   package { 'VirtualBox-4.3': 
