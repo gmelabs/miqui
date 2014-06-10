@@ -1,5 +1,7 @@
 class virtualbox {
   
+  $requiredVBpackages = ['kernel-devel', 'gcc']
+  
   yumrepo{ 'virtualbox':
     baseurl  => 'http://download.virtualbox.org/virtualbox/rpm/el/$releasever/$basearch',
     descr    => 'VirtualBox repository',
@@ -14,9 +16,8 @@ class virtualbox {
     Yumrepo['virtualbox'],
     Package[$requiredVBpackages],
     ]
-  }
+  }  
   
-  $requiredVBpackages = ['kernel-devel', 'gcc']
   package { $requiredVBpackages:
     ensure => installed,
   }
