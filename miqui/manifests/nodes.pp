@@ -19,7 +19,7 @@ node 'lab01.bigdata'{
   include hadoop
   include virtualbox
 }
-node 'lab02.bigdata'{
+node 'lab02.bigdata' {
   include every_node
   include virtualbox
 }
