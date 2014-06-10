@@ -1,9 +1,4 @@
-class virtualbox{
-  class { packages: require => Stage['main'] }
-  class { link_kernel: before => Stage['main'] }
-}
-
-class packages {
+class virtualbox {
   
   $requiredVBpackages = ['kernel-devel', 'gcc']
   
@@ -13,7 +8,6 @@ class packages {
     enabled  => 1,
     gpgcheck => 1,
     gpgkey => 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc',
-    require => Package[$requiredVBpackages],
   }
 
   package { 'VirtualBox-4.3': 
@@ -27,14 +21,11 @@ class packages {
   package { $requiredVBpackages:
     ensure => installed,
   }
-  
-}
 
-class link_kernel {
-    file{ 'link-kernels':
+  file{ 'link-kernels':
     ensure  => link,
     path    => '/lib/modules/2.6.32-431.el6.x86_64/build',
     target  => '/usr/src/kernels/2.6.32-431.17.1.el6.x86_64',
-  }   
-  
-}  
+    require => Package[$requiredVBpackages],     
+  }
+}
