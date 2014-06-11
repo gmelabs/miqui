@@ -20,11 +20,11 @@
 	<!-- Namenode local paths -->
 	<property>
 		<name>dfs.name.dir</name>
-		<value>/data/hadoop/dfs/name</value>
+		<value>/data01/hadoop/dfs/name</value>
 	</property>
 	<property>
 		<name>dfs.name.edits.dir</name>
-		<value>/data/hadoop/dfs/name</value>
+		<value>/data01/hadoop/dfs/name</value>
 	</property>
 	
 	<!-- User account (and group) for the web UI -->
@@ -42,7 +42,7 @@
 	<!-- Datanodes local paths -->
 	<property>
 		<name>dfs.data.dir</name>
-		<value>/data/hadoop/dfs/data</value>
+		<value>/data01/hadoop/dfs/data,/data02/hadoop/dfs/data,/data03/hadoop/dfs/data,/data04/hadoop/dfs/data,/data05/hadoop/dfs/data,/data06/hadoop/dfs/data</value>
 	</property>
 	
 	<!-- Default replication factor -->

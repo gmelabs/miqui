@@ -8,7 +8,7 @@
 	<!-- Local temp dir -->
 	<property>
 		<name>hadoop.tmp.dir</name>
-		<value>/data/hadoop/tmp</value>
+		<value>/data01/hadoop/tmp</value>
 	</property>
 	
 	<!-- Default hdfs -->
@@ -26,11 +26,11 @@
 	<!-- SecondaryNameNode local paths -->
 	<property>
 		<name>fs.checkpoint.dir</name>
-		<value>/data/hadoop/dfs/checkpoint</value>
+		<value>/data01/hadoop/dfs/checkpoint</value>
 	</property>
 	<property>
 		<name>fs.checkpoint.edits.dir</name>
-		<value>/data/hadoop/dfs/checkpoint</value>
+		<value>/data01/hadoop/dfs/checkpoint</value>
 	</property>
 	
 	<!-- Enable web UI private actions: NO -->

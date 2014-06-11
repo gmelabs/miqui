@@ -5,7 +5,6 @@ class hadoop {
   group { 'hadoop':
     ensure => present,
   }
-
   user { 'hdadmin':
     ensure     => present,
     gid        => 'hadoop',
@@ -29,28 +28,44 @@ class hadoop {
     require => File['hdadmin_home'],
   }
   file { 'hdruntime':
-     path    => '/home/hdadmin/runtime',
-     ensure  => directory,
-     mode    => '0755',
-     owner   => 'hdadmin',
-     group   => 'hadoop',
-     require => File['hdadmin_home'],
+    path    => '/home/hdadmin/runtime',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hdadmin_home'],
   }
-  file { 'base_datadir':
-     path    => '/data',
-     ensure  => directory,
-     mode    => '0755',
-     owner   => 'hdadmin',
-     group   => 'hadoop',
-     require => User['hdadmin'],
+  file { 'bashrc':
+    path    => '/home/hdadmin/.bashrc',
+    source  => 'puppet:///modules/hadoop/home/hdadmin/.bashrc',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hdadmin_home'],
   }
-  file { 'hadoop-data':
-     path    => '/data/hadoop',
-     ensure  => directory,
-     mode    => '0755',
-     owner   => 'hdadmin',
-     group   => 'hadoop',
-     require => File['base_datadir'],
+  file { 'hdadmin_ssh_dir':
+    path   => '/home/hdadmin/.ssh',
+    ensure => 'directory',
+    mode   => '0700',
+    owner  => 'hdadmin',
+    group  => 'hadoop',
+    require => File['hdadmin_home'],
+  }
+  file { 'hdadmin_known_hosts':
+    path   => '/home/hdadmin/.ssh/known_hosts',
+    source => 'puppet:///modules/every_node/root/.ssh/known_hosts',
+    mode   => '0644',
+    owner  => 'hdadmin',
+    group  => 'hadoop',
+    require => File['hdadmin_ssh_dir'],
+  }
+  file { 'hdadmin_authorized_keys':
+    path   => '/home/hdadmin/.ssh/authorized_keys',
+    source => 'puppet:///modules/every_node/root/.ssh/authorized_keys',
+    mode   => '0600',
+    owner  => 'hdadmin',
+    group  => 'hadoop',
+    require => File['hdadmin_ssh_dir'],
   }
   service { 'iptables':
     ensure => stopped,

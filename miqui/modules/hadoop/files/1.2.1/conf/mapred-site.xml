@@ -38,7 +38,7 @@
 	<!-- Distributed cache local paths -->
 	<property>
 		<name>mapred.local.dir</name>
-		<value>/data/hadoop/mapred/local</value>
+		<value>/data01/hadoop/mapred/local,/data02/hadoop/mapred/local,/data03/hadoop/mapred/local,/data04/hadoop/mapred/local,/data05/hadoop/mapred/local,/data06/hadoop/mapred/local</value>
 	</property>
 	
 	<!-- Jobtracker and Tasktrackers HDFS paths -->

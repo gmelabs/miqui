@@ -34,7 +34,7 @@ export HADOOP_JOBTRACKER_OPTS="-Dcom.sun.management.jmxremote $HADOOP_JOBTRACKER
 # export HADOOP_SSH_OPTS="-o ConnectTimeout=1 -o SendEnv=HADOOP_CONF_DIR"
 
 # Where log files are stored.  $HADOOP_HOME/logs by default.
-export HADOOP_LOG_DIR=/data/hadoop/logs
+export HADOOP_LOG_DIR=/data01/hadoop/logs
 
 # File naming remote slave hosts.  $HADOOP_HOME/conf/slaves by default.
 # export HADOOP_SLAVES=${HADOOP_HOME}/conf/slaves
@@ -51,7 +51,7 @@ export HADOOP_LOG_DIR=/data/hadoop/logs
 # NOTE: this should be set to a directory that can only be written to by 
 #       the users that are going to run the hadoop daemons.  Otherwise there is
 #       the potential for a symlink attack.
-export HADOOP_PID_DIR=/data/hadoop/pids
+export HADOOP_PID_DIR=/data01/hadoop/pids
 
 # A string representing this instance of hadoop. $USER by default.
 # export HADOOP_IDENT_STRING=$USER
