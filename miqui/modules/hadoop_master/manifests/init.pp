@@ -11,12 +11,12 @@ class hadoop_master {
     require => User['hdadmin'],
   }
   
-# En VMs el master también es esclavo y el link no puede crearse  
-#  file { '/data01':
-#    ensure  => link,
-#    target  => '/',
-#    require => User['hdadmin'],
-#  }
+ #En VMs el master también es esclavo y el link no puede crearse  
+  file { '/data01':
+    ensure  => link,
+    target  => '/',
+    require => User['hdadmin'],
+  }
   exec { 'do-install-rsa-key':
     command => '/bin/cp /root/.ssh/id_rsa* /home/hdadmin/.ssh/. && /bin/chown hdadmin:hadoop /home/hdadmin/.ssh/id_rsa*',
     creates => '/home/hdadmin/.ssh/id_rsa',
