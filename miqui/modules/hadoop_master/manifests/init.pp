@@ -17,10 +17,11 @@ class hadoop_master {
     target  => '/',
     require => User['hdadmin'],
   }
-  exec { 'do-install-rsa-key':
-    command => '/bin/cp /root/.ssh/id_rsa* /home/hdadmin/.ssh/. && /bin/chown hdadmin:hadoop /home/hdadmin/.ssh/id_rsa*',
-    creates => '/home/hdadmin/.ssh/id_rsa',
-    require => File['.ssh', 'hdadmin_ssh_dir'],
-  }
+  # Ya no hace falta. Se ha generado manualmente las claves de hdadmin y distribuida la pública a través de todos los nodos hadoop
+#  exec { 'do-install-rsa-key':
+#    command => '/bin/cp /root/.ssh/id_rsa* /home/hdadmin/.ssh/. && /bin/chown hdadmin:hadoop /home/hdadmin/.ssh/id_rsa*',
+#    creates => '/home/hdadmin/.ssh/id_rsa',
+#    require => File['.ssh', 'hdadmin_ssh_dir'],
+#  }
 
 }
