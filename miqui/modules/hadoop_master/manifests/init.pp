@@ -16,8 +16,9 @@ class hadoop_master {
     require => User['hdadmin'],
   }
   exec { 'do-install-rsa-key':
-    command => 'cp /root/.ssh/id_rsa /home/hdadmin/.ssh/id_rsa* && chown hdadmin:hadoop /home/hdadmin/.ssh/id_rsa*',
+    command => 'cp /root/.ssh/id_rsa* /home/hdadmin/.ssh/ && chown hdadmin:hadoop /home/hdadmin/.ssh/id_rsa*',
     creates => '/home/hdadmin/id_rsa',
     require => File['.ssh', 'hdadmin_ssh_dir'],
   }
+
 }
