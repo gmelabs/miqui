@@ -53,7 +53,7 @@ class hadoop {
   }
   file { 'hdadmin_known_hosts':
     path   => '/home/hdadmin/.ssh/known_hosts',
-    source => 'puppet:///modules/every_node/root/.ssh/known_hosts',
+    source => 'puppet:///modules/hadoop/home/hdadmin/.ssh/known_hosts',
     mode   => '0644',
     owner  => 'hdadmin',
     group  => 'hadoop',
@@ -61,7 +61,7 @@ class hadoop {
   }
   file { 'hdadmin_authorized_keys':
     path   => '/home/hdadmin/.ssh/authorized_keys',
-    source => 'puppet:///modules/every_node/root/.ssh/authorized_keys',
+    source => 'puppet:///modules/hadoop/home/hdadmin/.ssh/authorized_keys',
     mode   => '0600',
     owner  => 'hdadmin',
     group  => 'hadoop',
