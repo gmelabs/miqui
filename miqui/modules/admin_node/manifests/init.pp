@@ -81,4 +81,25 @@ class admin_node {
     owner  => 'root',
     group  => 'root',
   }
+  file { 'del-hadoop-logs':
+    path   => '/root/del-hadoop-logs',
+    source => 'puppet:///modules/admin_node/root/del-hadoop-logs',
+    mode   => '0644', # Execution privileges intencionally disabled
+    owner  => 'root',
+    group  => 'root',
+  }
+  file { 'force-apply':
+    path   => '/root/force-apply',
+    source => 'puppet:///modules/admin_node/root/force-apply',
+    mode   => '0744',
+    owner  => 'root',
+    group  => 'root',
+  }
+  file { 'restore-iptables':
+    path   => '/root/restore-iptables',
+    source => 'puppet:///modules/admin_node/root/restore-iptables',
+    mode   => '0744',
+    owner  => 'root',
+    group  => 'root',
+  }
 }
