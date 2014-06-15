@@ -1,0 +1,512 @@
+Executed:
+------------------------------------------------------------------------
+#!/usr/bin/env bash
+
+export COMMAND='yum update -y'
+
+eval $COMMAND 2>&1 | sed "s/^/$HOSTNAME: /"
+
+for host in `cat <<EOF
+master01.bigdata
+worker01.bigdata
+worker02.bigdata
+lab01.bigdata
+lab02.bigdata
+EOF`
+do
+  ssh $host $COMMAND 2>&1 | sed "s/^/$host: /" &
+done
+wait
+------------------------------------------------------------------------
+La primera vez sin aplicarlo al $HOSTNAME, y la segunda con todo.
+El log de la primera ejecución se machacó, pero queda esto:
+
+vmmadbd00: Loaded plugins: fastestmirror, refresh-packagekit
+vmmadbd00: Loading mirror speeds from cached hostfile
+vmmadbd00:  * base: centos.mbni.med.umich.edu
+vmmadbd00:  * extras: mirrors.advancedhosters.com
+vmmadbd00:  * updates: mirrors.arsc.edu
+vmmadbd00: Setting up Update Process
+vmmadbd00: Resolving Dependencies
+vmmadbd00: --> Running transaction check
+vmmadbd00: ---> Package audit.x86_64 0:2.2-2.el6 will be updated
+vmmadbd00: ---> Package audit.x86_64 0:2.2-4.el6_5 will be an update
+vmmadbd00: ---> Package audit-libs.x86_64 0:2.2-2.el6 will be updated
+vmmadbd00: ---> Package audit-libs.x86_64 0:2.2-4.el6_5 will be an update
+vmmadbd00: ---> Package ca-certificates.noarch 0:2013.1.94-65.0.el6 will be updated
+vmmadbd00: ---> Package ca-certificates.noarch 0:2013.1.95-65.1.el6_5 will be an update
+vmmadbd00: ---> Package centos-release.x86_64 0:6-5.el6.centos.11.1 will be updated
+vmmadbd00: ---> Package centos-release.x86_64 0:6-5.el6.centos.11.2 will be an update
+vmmadbd00: ---> Package coreutils.x86_64 0:8.4-31.el6 will be updated
+vmmadbd00: ---> Package coreutils.x86_64 0:8.4-31.el6_5.1 will be an update
+vmmadbd00: ---> Package coreutils-libs.x86_64 0:8.4-31.el6 will be updated
+vmmadbd00: ---> Package coreutils-libs.x86_64 0:8.4-31.el6_5.1 will be an update
+vmmadbd00: ---> Package curl.x86_64 0:7.19.7-37.el6_4 will be updated
+vmmadbd00: ---> Package curl.x86_64 0:7.19.7-37.el6_5.3 will be an update
+vmmadbd00: ---> Package device-mapper-multipath.x86_64 0:0.4.9-72.el6 will be updated
+vmmadbd00: ---> Package device-mapper-multipath.x86_64 0:0.4.9-72.el6_5.2 will be an update
+vmmadbd00: ---> Package device-mapper-multipath-libs.x86_64 0:0.4.9-72.el6 will be updated
+vmmadbd00: ---> Package device-mapper-multipath-libs.x86_64 0:0.4.9-72.el6_5.2 will be an update
+vmmadbd00: ---> Package device-mapper-persistent-data.x86_64 0:0.2.8-2.el6 will be updated
+vmmadbd00: ---> Package device-mapper-persistent-data.x86_64 0:0.2.8-4.el6_5 will be an update
+vmmadbd00: ---> Package dracut.noarch 0:004-335.el6 will be updated
+vmmadbd00: ---> Package dracut.noarch 0:004-336.el6_5.2 will be an update
+vmmadbd00: ---> Package dracut-kernel.noarch 0:004-335.el6 will be updated
+vmmadbd00: ---> Package dracut-kernel.noarch 0:004-336.el6_5.2 will be an update
+vmmadbd00: ---> Package ethtool.x86_64 2:3.5-1.el6 will be updated
+vmmadbd00: ---> Package ethtool.x86_64 2:3.5-1.4.el6_5 will be an update
+vmmadbd00: ---> Package glibc.x86_64 0:2.12-1.132.el6_5.1 will be updated
+vmmadbd00: ---> Package glibc.x86_64 0:2.12-1.132.el6_5.2 will be an update
+vmmadbd00: ---> Package glibc-common.x86_64 0:2.12-1.132.el6_5.1 will be updated
+vmmadbd00: ---> Package glibc-common.x86_64 0:2.12-1.132.el6_5.2 will be an update
+vmmadbd00: ---> Package glibc-devel.x86_64 0:2.12-1.132.el6_5.1 will be updated
+vmmadbd00: ---> Package glibc-devel.x86_64 0:2.12-1.132.el6_5.2 will be an update
+vmmadbd00: ---> Package glibc-headers.x86_64 0:2.12-1.132.el6_5.1 will be updated
+vmmadbd00: ---> Package glibc-headers.x86_64 0:2.12-1.132.el6_5.2 will be an update
+vmmadbd00: ---> Package gnutls.x86_64 0:2.8.5-13.el6_5 will be updated
+vmmadbd00: ---> Package gnutls.x86_64 0:2.8.5-14.el6_5 will be an update
+vmmadbd00: ---> Package grep.x86_64 0:2.6.3-4.el6 will be updated
+vmmadbd00: ---> Package grep.x86_64 0:2.6.3-4.el6_5.1 will be an update
+vmmadbd00: ---> Package gvfs.x86_64 0:1.4.3-15.el6 will be updated
+vmmadbd00: ---> Package gvfs.x86_64 0:1.4.3-16.el6_5 will be an update
+vmmadbd00: ---> Package gvfs-archive.x86_64 0:1.4.3-15.el6 will be updated
+vmmadbd00: ---> Package gvfs-archive.x86_64 0:1.4.3-16.el6_5 will be an update
+vmmadbd00: ---> Package gvfs-fuse.x86_64 0:1.4.3-15.el6 will be updated
+vmmadbd00: ---> Package gvfs-fuse.x86_64 0:1.4.3-16.el6_5 will be an update
+vmmadbd00: ---> Package gvfs-smb.x86_64 0:1.4.3-15.el6 will be updated
+vmmadbd00: ---> Package gvfs-smb.x86_64 0:1.4.3-16.el6_5 will be an update
+vmmadbd00: ---> Package initscripts.x86_64 0:9.03.40-2.el6.centos will be updated
+vmmadbd00: ---> Package initscripts.x86_64 0:9.03.40-2.el6.centos.1 will be an update
+vmmadbd00: ---> Package iproute.x86_64 0:2.6.32-31.el6 will be updated
+vmmadbd00: ---> Package iproute.x86_64 0:2.6.32-32.el6_5 will be an update
+vmmadbd00: ---> Package kernel.x86_64 0:2.6.32-431.17.1.el6 will be installed
+vmmadbd00: ---> Package kernel-firmware.noarch 0:2.6.32-431.el6 will be updated
+vmmadbd00: ---> Package kernel-firmware.noarch 0:2.6.32-431.17.1.el6 will be an update
+vmmadbd00: ---> Package kpartx.x86_64 0:0.4.9-72.el6 will be updated
+vmmadbd00: ---> Package kpartx.x86_64 0:0.4.9-72.el6_5.2 will be an update
+vmmadbd00: ---> Package krb5-libs.x86_64 0:1.10.3-10.el6_4.6 will be updated
+vmmadbd00: ---> Package krb5-libs.x86_64 0:1.10.3-15.el6_5.1 will be an update
+vmmadbd00: ---> Package libblkid.x86_64 0:2.17.2-12.14.el6 will be updated
+vmmadbd00: ---> Package libblkid.x86_64 0:2.17.2-12.14.el6_5 will be an update
+vmmadbd00: ---> Package libcurl.x86_64 0:7.19.7-37.el6_4 will be updated
+vmmadbd00: ---> Package libcurl.x86_64 0:7.19.7-37.el6_5.3 will be an update
+vmmadbd00: ---> Package libtasn1.x86_64 0:2.3-3.el6_2.1 will be updated
+vmmadbd00: ---> Package libtasn1.x86_64 0:2.3-6.el6_5 will be an update
+vmmadbd00: ---> Package libuuid.x86_64 0:2.17.2-12.14.el6 will be updated
+vmmadbd00: ---> Package libuuid.x86_64 0:2.17.2-12.14.el6_5 will be an update
+vmmadbd00: ---> Package mdadm.x86_64 0:3.2.6-7.el6 will be updated
+vmmadbd00: ---> Package mdadm.x86_64 0:3.2.6-7.el6_5.2 will be an update
+vmmadbd00: ---> Package mysql-libs.x86_64 0:5.1.71-1.el6 will be updated
+vmmadbd00: ---> Package mysql-libs.x86_64 0:5.1.73-3.el6_5 will be an update
+vmmadbd00: ---> Package nss-softokn.x86_64 0:3.14.3-9.el6 will be updated
+vmmadbd00: ---> Package nss-softokn.x86_64 0:3.14.3-10.el6_5 will be an update
+vmmadbd00: ---> Package nss-softokn-freebl.x86_64 0:3.14.3-9.el6 will be updated
+vmmadbd00: ---> Package nss-softokn-freebl.x86_64 0:3.14.3-10.el6_5 will be an update
+vmmadbd00: ---> Package openldap.x86_64 0:2.4.23-32.el6_4.1 will be updated
+vmmadbd00: ---> Package openldap.x86_64 0:2.4.23-34.el6_5.1 will be an update
+vmmadbd00: ---> Package openssl.x86_64 0:1.0.1e-15.el6 will be updated
+vmmadbd00: ---> Package openssl.x86_64 0:1.0.1e-16.el6_5.14 will be an update
+vmmadbd00: ---> Package p11-kit.x86_64 0:0.18.5-2.el6 will be updated
+vmmadbd00: ---> Package p11-kit.x86_64 0:0.18.5-2.el6_5.2 will be an update
+vmmadbd00: ---> Package p11-kit-trust.x86_64 0:0.18.5-2.el6 will be updated
+vmmadbd00: ---> Package p11-kit-trust.x86_64 0:0.18.5-2.el6_5.2 will be an update
+vmmadbd00: ---> Package postfix.x86_64 2:2.6.6-2.2.el6_1 will be updated
+vmmadbd00: ---> Package postfix.x86_64 2:2.6.6-6.el6_5 will be an update
+vmmadbd00: ---> Package psmisc.x86_64 0:22.6-15.el6_0.1 will be updated
+vmmadbd00: ---> Package psmisc.x86_64 0:22.6-19.el6_5 will be an update
+vmmadbd00: ---> Package python.x86_64 0:2.6.6-51.el6 will be updated
+vmmadbd00: ---> Package python.x86_64 0:2.6.6-52.el6 will be an update
+vmmadbd00: ---> Package python-libs.x86_64 0:2.6.6-51.el6 will be updated
+vmmadbd00: ---> Package python-libs.x86_64 0:2.6.6-52.el6 will be an update
+vmmadbd00: ---> Package selinux-policy.noarch 0:3.7.19-231.el6 will be updated
+vmmadbd00: ---> Package selinux-policy.noarch 0:3.7.19-231.el6_5.3 will be an update
+vmmadbd00: ---> Package selinux-policy-targeted.noarch 0:3.7.19-231.el6 will be updated
+vmmadbd00: ---> Package selinux-policy-targeted.noarch 0:3.7.19-231.el6_5.3 will be an update
+vmmadbd00: ---> Package tzdata.noarch 0:2013g-1.el6 will be updated
+vmmadbd00: ---> Package tzdata.noarch 0:2014d-1.el6 will be an update
+vmmadbd00: ---> Package upstart.x86_64 0:0.6.5-12.el6_4.1 will be updated
+vmmadbd00: ---> Package upstart.x86_64 0:0.6.5-13.el6_5.3 will be an update
+vmmadbd00: ---> Package util-linux-ng.x86_64 0:2.17.2-12.14.el6 will be updated
+vmmadbd00: ---> Package util-linux-ng.x86_64 0:2.17.2-12.14.el6_5 will be an update
+vmmadbd00: ---> Package yum.noarch 0:3.2.29-40.el6.centos will be updated
+vmmadbd00: ---> Package yum.noarch 0:3.2.29-43.el6.centos will be an update
+vmmadbd00: ---> Package yum-plugin-fastestmirror.noarch 0:1.1.30-14.el6 will be updated
+vmmadbd00: ---> Package yum-plugin-fastestmirror.noarch 0:1.1.30-17.el6_5 will be an update
+vmmadbd00: --> Finished Dependency Resolution
+vmmadbd00:
+vmmadbd00: Dependencies Resolved
+vmmadbd00:
+vmmadbd00: ================================================================================
+vmmadbd00:  Package                        Arch    Version                  Repository
+vmmadbd00:                                                                            Size
+vmmadbd00: ================================================================================
+vmmadbd00: Installing:
+vmmadbd00:  kernel                         x86_64  2.6.32-431.17.1.el6      updates   28 M
+vmmadbd00: Updating:
+vmmadbd00:  audit                          x86_64  2.2-4.el6_5              updates  225 k
+vmmadbd00:  audit-libs                     x86_64  2.2-4.el6_5              updates   60 k
+vmmadbd00:  ca-certificates                noarch  2013.1.95-65.1.el6_5     updates  1.1 M
+vmmadbd00:  centos-release                 x86_64  6-5.el6.centos.11.2      updates   20 k
+vmmadbd00:  coreutils                      x86_64  8.4-31.el6_5.1           updates  3.0 M
+vmmadbd00:  coreutils-libs                 x86_64  8.4-31.el6_5.1           updates   50 k
+vmmadbd00:  curl                           x86_64  7.19.7-37.el6_5.3        updates  194 k
+vmmadbd00:  device-mapper-multipath        x86_64  0.4.9-72.el6_5.2         updates  117 k
+vmmadbd00:  device-mapper-multipath-libs   x86_64  0.4.9-72.el6_5.2         updates  181 k
+vmmadbd00:  device-mapper-persistent-data  x86_64  0.2.8-4.el6_5            updates  1.1 M
+vmmadbd00:  dracut                         noarch  004-336.el6_5.2          updates  122 k
+vmmadbd00:  dracut-kernel                  noarch  004-336.el6_5.2          updates   24 k
+vmmadbd00:  ethtool                        x86_64  2:3.5-1.4.el6_5          updates  101 k
+vmmadbd00:  glibc                          x86_64  2.12-1.132.el6_5.2       updates  3.8 M
+vmmadbd00:  glibc-common                   x86_64  2.12-1.132.el6_5.2       updates   14 M
+vmmadbd00:  glibc-devel                    x86_64  2.12-1.132.el6_5.2       updates  978 k
+vmmadbd00:  glibc-headers                  x86_64  2.12-1.132.el6_5.2       updates  608 k
+vmmadbd00:  gnutls                         x86_64  2.8.5-14.el6_5           updates  346 k
+vmmadbd00:  grep                           x86_64  2.6.3-4.el6_5.1          updates  229 k
+vmmadbd00:  gvfs                           x86_64  1.4.3-16.el6_5           updates  895 k
+vmmadbd00:  gvfs-archive                   x86_64  1.4.3-16.el6_5           updates   64 k
+vmmadbd00:  gvfs-fuse                      x86_64  1.4.3-16.el6_5           updates   30 k
+vmmadbd00:  gvfs-smb                       x86_64  1.4.3-16.el6_5           updates   91 k
+vmmadbd00:  initscripts                    x86_64  9.03.40-2.el6.centos.1   updates  940 k
+vmmadbd00:  iproute                        x86_64  2.6.32-32.el6_5          updates  365 k
+vmmadbd00:  kernel-firmware                noarch  2.6.32-431.17.1.el6      updates   13 M
+vmmadbd00:  kpartx                         x86_64  0.4.9-72.el6_5.2         updates   58 k
+vmmadbd00:  krb5-libs                      x86_64  1.10.3-15.el6_5.1        updates  761 k
+vmmadbd00:  libblkid                       x86_64  2.17.2-12.14.el6_5       updates  115 k
+vmmadbd00:  libcurl                        x86_64  7.19.7-37.el6_5.3        updates  166 k
+vmmadbd00:  libtasn1                       x86_64  2.3-6.el6_5              updates  238 k
+vmmadbd00:  libuuid                        x86_64  2.17.2-12.14.el6_5       updates   68 k
+vmmadbd00:  mdadm                          x86_64  3.2.6-7.el6_5.2          updates  337 k
+vmmadbd00:  mysql-libs                     x86_64  5.1.73-3.el6_5           updates  1.2 M
+vmmadbd00:  nss-softokn                    x86_64  3.14.3-10.el6_5          updates  265 k
+vmmadbd00:  nss-softokn-freebl             x86_64  3.14.3-10.el6_5          updates  157 k
+vmmadbd00:  openldap                       x86_64  2.4.23-34.el6_5.1        updates  265 k
+vmmadbd00:  openssl                        x86_64  1.0.1e-16.el6_5.14       updates  1.5 M
+vmmadbd00:  p11-kit                        x86_64  0.18.5-2.el6_5.2         updates   94 k
+vmmadbd00:  p11-kit-trust                  x86_64  0.18.5-2.el6_5.2         updates   71 k
+vmmadbd00:  postfix                        x86_64  2:2.6.6-6.el6_5          updates  2.0 M
+vmmadbd00:  psmisc                         x86_64  22.6-19.el6_5            updates   81 k
+vmmadbd00:  python                         x86_64  2.6.6-52.el6             updates   74 k
+vmmadbd00:  python-libs                    x86_64  2.6.6-52.el6             updates  5.3 M
+vmmadbd00:  selinux-policy                 noarch  3.7.19-231.el6_5.3       updates  825 k
+vmmadbd00:  selinux-policy-targeted        noarch  3.7.19-231.el6_5.3       updates  2.8 M
+vmmadbd00:  tzdata                         noarch  2014d-1.el6              updates  452 k
+vmmadbd00:  upstart                        x86_64  0.6.5-13.el6_5.3         updates  177 k
+vmmadbd00:  util-linux-ng                  x86_64  2.17.2-12.14.el6_5       updates  1.5 M
+vmmadbd00:  yum                            noarch  3.2.29-43.el6.centos     updates  996 k
+vmmadbd00:  yum-plugin-fastestmirror       noarch  1.1.30-17.el6_5          updates   28 k
+vmmadbd00:
+vmmadbd00: Transaction Summary
+vmmadbd00: ================================================================================
+vmmadbd00: Install       1 Package(s)
+vmmadbd00: Upgrade      51 Package(s)
+vmmadbd00:
+vmmadbd00: Total download size: 89 M
+vmmadbd00: Downloading Packages:
+vmmadbd00: --------------------------------------------------------------------------------
+vmmadbd00: Total                                           220 kB/s |  89 MB     06:53
+vmmadbd00: Running rpm_check_debug
+vmmadbd00: Running Transaction Test
+vmmadbd00: Transaction Test Succeeded
+vmmadbd00: Running Transaction
+  Updating   : kernel-firmware-2.6.32-431.17.1.el6.noarch                 1/103
+  Updating   : tzdata-2014d-1.el6.noarch                                  2/103
+  Updating   : glibc-common-2.12-1.132.el6_5.2.x86_64                     3/103
+  Updating   : glibc-2.12-1.132.el6_5.2.x86_64                            4/103
+  Updating   : nss-softokn-freebl-3.14.3-10.el6_5.x86_64                  5/103
+  Updating   : grep-2.6.3-4.el6_5.1.x86_64                                6/103
+  Updating   : coreutils-8.4-31.el6_5.1.x86_64                            7/103
+  Updating   : coreutils-libs-8.4-31.el6_5.1.x86_64                       8/103
+  Updating   : libtasn1-2.3-6.el6_5.x86_64                                9/103
+  Updating   : krb5-libs-1.10.3-15.el6_5.1.x86_64                        10/103
+  Updating   : openldap-2.4.23-34.el6_5.1.x86_64                         11/103
+  Updating   : audit-libs-2.2-4.el6_5.x86_64                             12/103
+  Updating   : gvfs-1.4.3-16.el6_5.x86_64                                13/103
+  Updating   : p11-kit-0.18.5-2.el6_5.2.x86_64                           14/103
+  Updating   : libuuid-2.17.2-12.14.el6_5.x86_64                         15/103
+  Updating   : libblkid-2.17.2-12.14.el6_5.x86_64                        16/103
+  Updating   : util-linux-ng-2.17.2-12.14.el6_5.x86_64                   17/103
+  Updating   : p11-kit-trust-0.18.5-2.el6_5.2.x86_64                     18/103
+  Updating   : ca-certificates-2013.1.95-65.1.el6_5.noarch               19/103
+  Updating   : openssl-1.0.1e-16.el6_5.14.x86_64                         20/103
+  Updating   : python-2.6.6-52.el6.x86_64                                21/103
+  Updating   : python-libs-2.6.6-52.el6.x86_64                           22/103
+  Updating   : yum-plugin-fastestmirror-1.1.30-17.el6_5.noarch           23/103
+  Updating   : yum-3.2.29-43.el6.centos.noarch                           24/103
+  Updating   : mysql-libs-5.1.73-3.el6_5.x86_64                          25/103
+  Updating   : upstart-0.6.5-13.el6_5.3.x86_64                           26/103
+  Updating   : libcurl-7.19.7-37.el6_5.3.x86_64                          27/103
+  Updating   : selinux-policy-3.7.19-231.el6_5.3.noarch                  28/103
+  Updating   : device-mapper-multipath-libs-0.4.9-72.el6_5.2.x86_64      29/103
+  Updating   : glibc-headers-2.12-1.132.el6_5.2.x86_64                   30/103
+  Updating   : psmisc-22.6-19.el6_5.x86_64                               31/103
+  Updating   : iproute-2.6.32-32.el6_5.x86_64                            32/103
+  Updating   : kpartx-0.4.9-72.el6_5.2.x86_64                            33/103
+  Updating   : 2:ethtool-3.5-1.4.el6_5.x86_64                            34/103
+  Updating   : centos-release-6-5.el6.centos.11.2.x86_64                 35/103
+  Updating   : initscripts-9.03.40-2.el6.centos.1.x86_64                 36/103
+  Updating   : dracut-004-336.el6_5.2.noarch                             37/103
+  Updating   : dracut-kernel-004-336.el6_5.2.noarch                      38/103
+  Installing : kernel-2.6.32-431.17.1.el6.x86_64                         39/103
+  Updating   : device-mapper-multipath-0.4.9-72.el6_5.2.x86_64           40/103
+  Updating   : mdadm-3.2.6-7.el6_5.2.x86_64                              41/103
+  Updating   : 2:postfix-2.6.6-6.el6_5.x86_64                            42/103
+  Updating   : glibc-devel-2.12-1.132.el6_5.2.x86_64                     43/103
+  Updating   : selinux-policy-targeted-3.7.19-231.el6_5.3.noarch         44/103
+  Updating   : curl-7.19.7-37.el6_5.3.x86_64                             45/103
+  Updating   : gvfs-fuse-1.4.3-16.el6_5.x86_64                           46/103
+  Updating   : gvfs-smb-1.4.3-16.el6_5.x86_64                            47/103
+  Updating   : gvfs-archive-1.4.3-16.el6_5.x86_64                        48/103
+  Updating   : audit-2.2-4.el6_5.x86_64                                  49/103
+  Updating   : gnutls-2.8.5-14.el6_5.x86_64                              50/103
+  Updating   : nss-softokn-3.14.3-10.el6_5.x86_64                        51/103
+  Updating   : device-mapper-persistent-data-0.2.8-4.el6_5.x86_64        52/103
+  Cleanup    : 2:postfix-2.6.6-2.2.el6_1.x86_64                          53/103
+  Cleanup    : curl-7.19.7-37.el6_4.x86_64                               54/103
+  Cleanup    : device-mapper-multipath-0.4.9-72.el6.x86_64               55/103
+  Cleanup    : mysql-libs-5.1.71-1.el6.x86_64                            56/103
+  Cleanup    : libcurl-7.19.7-37.el6_4.x86_64                            57/103
+  Cleanup    : gvfs-archive-1.4.3-15.el6.x86_64                          58/103
+  Cleanup    : gvfs-smb-1.4.3-15.el6.x86_64                              59/103
+  Cleanup    : gvfs-fuse-1.4.3-15.el6.x86_64                             60/103
+  Cleanup    : audit-2.2-2.el6.x86_64                                    61/103
+  Cleanup    : glibc-devel-2.12-1.132.el6_5.1.x86_64                     62/103
+  Cleanup    : nss-softokn-3.14.3-9.el6.x86_64                           63/103
+  Cleanup    : gnutls-2.8.5-13.el6_5.x86_64                              64/103
+  Cleanup    : yum-plugin-fastestmirror-1.1.30-14.el6.noarch             65/103
+  Cleanup    : yum-3.2.29-40.el6.centos.noarch                           66/103
+  Cleanup    : selinux-policy-targeted-3.7.19-231.el6.noarch             67/103
+  Cleanup    : python-libs-2.6.6-51.el6.x86_64                           68/103
+  Cleanup    : python-2.6.6-51.el6.x86_64                                69/103
+  Cleanup    : openssl-1.0.1e-15.el6.x86_64                              70/103
+  Cleanup    : ca-certificates-2013.1.94-65.0.el6.noarch                 71/103
+  Cleanup    : p11-kit-trust-0.18.5-2.el6.x86_64                         72/103
+  Cleanup    : p11-kit-0.18.5-2.el6.x86_64                               73/103
+  Cleanup    : mdadm-3.2.6-7.el6.x86_64                                  74/103
+  Cleanup    : selinux-policy-3.7.19-231.el6.noarch                      75/103
+  Cleanup    : glibc-headers-2.12-1.132.el6_5.1.x86_64                   76/103
+  Cleanup    : dracut-kernel-004-335.el6.noarch                          77/103
+  Cleanup    : dracut-004-335.el6.noarch                                 78/103
+  Cleanup    : initscripts-9.03.40-2.el6.centos.x86_64                   79/103
+  Cleanup    : util-linux-ng-2.17.2-12.14.el6.x86_64                     80/103
+  Cleanup    : coreutils-libs-8.4-31.el6.x86_64                          81/103
+  Cleanup    : coreutils-8.4-31.el6.x86_64                               82/103
+  Cleanup    : libblkid-2.17.2-12.14.el6.x86_64                          83/103
+  Cleanup    : upstart-0.6.5-12.el6_4.1.x86_64                           84/103
+  Cleanup    : audit-libs-2.2-2.el6.x86_64                               85/103
+  Cleanup    : libuuid-2.17.2-12.14.el6.x86_64                           86/103
+  Cleanup    : grep-2.6.3-4.el6.x86_64                                   87/103
+  Cleanup    : psmisc-22.6-15.el6_0.1.x86_64                             88/103
+  Cleanup    : iproute-2.6.32-31.el6.x86_64                              89/103
+  Cleanup    : 2:ethtool-3.5-1.el6.x86_64                                90/103
+  Cleanup    : libtasn1-2.3-3.el6_2.1.x86_64                             91/103
+  Cleanup    : krb5-libs-1.10.3-10.el6_4.6.x86_64                        92/103
+  Cleanup    : gvfs-1.4.3-15.el6.x86_64                                  93/103
+  Cleanup    : openldap-2.4.23-32.el6_4.1.x86_64                         94/103
+  Cleanup    : device-mapper-multipath-libs-0.4.9-72.el6.x86_64          95/103
+  Cleanup    : kpartx-0.4.9-72.el6.x86_64                                96/103
+  Cleanup    : device-mapper-persistent-data-0.2.8-2.el6.x86_64          97/103
+  Cleanup    : centos-release-6-5.el6.centos.11.1.x86_64                 98/103
+  Cleanup    : kernel-firmware-2.6.32-431.el6.noarch                     99/103
+  Cleanup    : glibc-common-2.12-1.132.el6_5.1.x86_64                   100/103
+  Cleanup    : nss-softokn-freebl-3.14.3-9.el6.x86_64                   101/103
+  Cleanup    : glibc-2.12-1.132.el6_5.1.x86_64                          102/103
+  Cleanup    : tzdata-2013g-1.el6.noarch                                103/103
+  Verifying  : centos-release-6-5.el6.centos.11.2.x86_64                  1/103
+  Verifying  : libtasn1-2.3-6.el6_5.x86_64                                2/103
+  Verifying  : device-mapper-multipath-0.4.9-72.el6_5.2.x86_64            3/103
+  Verifying  : device-mapper-persistent-data-0.2.8-4.el6_5.x86_64         4/103
+  Verifying  : device-mapper-multipath-libs-0.4.9-72.el6_5.2.x86_64       5/103
+  Verifying  : gnutls-2.8.5-14.el6_5.x86_64                               6/103
+  Verifying  : kernel-2.6.32-431.17.1.el6.x86_64                          7/103
+  Verifying  : glibc-headers-2.12-1.132.el6_5.2.x86_64                    8/103
+  Verifying  : ca-certificates-2013.1.95-65.1.el6_5.noarch                9/103
+  Verifying  : p11-kit-0.18.5-2.el6_5.2.x86_64                           10/103
+  Verifying  : nss-softokn-freebl-3.14.3-10.el6_5.x86_64                 11/103
+  Verifying  : yum-3.2.29-43.el6.centos.noarch                           12/103
+  Verifying  : glibc-common-2.12-1.132.el6_5.2.x86_64                    13/103
+  Verifying  : curl-7.19.7-37.el6_5.3.x86_64                             14/103
+  Verifying  : upstart-0.6.5-13.el6_5.3.x86_64                           15/103
+  Verifying  : psmisc-22.6-19.el6_5.x86_64                               16/103
+  Verifying  : iproute-2.6.32-32.el6_5.x86_64                            17/103
+  Verifying  : mdadm-3.2.6-7.el6_5.2.x86_64                              18/103
+  Verifying  : tzdata-2014d-1.el6.noarch                                 19/103
+  Verifying  : python-libs-2.6.6-52.el6.x86_64                           20/103
+  Verifying  : selinux-policy-3.7.19-231.el6_5.3.noarch                  21/103
+  Verifying  : audit-2.2-4.el6_5.x86_64                                  22/103
+  Verifying  : p11-kit-trust-0.18.5-2.el6_5.2.x86_64                     23/103
+  Verifying  : selinux-policy-targeted-3.7.19-231.el6_5.3.noarch         24/103
+  Verifying  : 2:postfix-2.6.6-6.el6_5.x86_64                            25/103
+  Verifying  : gvfs-fuse-1.4.3-16.el6_5.x86_64                           26/103
+  Verifying  : openssl-1.0.1e-16.el6_5.14.x86_64                         27/103
+  Verifying  : kpartx-0.4.9-72.el6_5.2.x86_64                            28/103
+  Verifying  : gvfs-smb-1.4.3-16.el6_5.x86_64                            29/103
+  Verifying  : krb5-libs-1.10.3-15.el6_5.1.x86_64                        30/103
+  Verifying  : glibc-devel-2.12-1.132.el6_5.2.x86_64                     31/103
+  Verifying  : libblkid-2.17.2-12.14.el6_5.x86_64                        32/103
+  Verifying  : 2:ethtool-3.5-1.4.el6_5.x86_64                            33/103
+  Verifying  : initscripts-9.03.40-2.el6.centos.1.x86_64                 34/103
+  Verifying  : openldap-2.4.23-34.el6_5.1.x86_64                         35/103
+  Verifying  : kernel-firmware-2.6.32-431.17.1.el6.noarch                36/103
+  Verifying  : nss-softokn-3.14.3-10.el6_5.x86_64                        37/103
+  Verifying  : libcurl-7.19.7-37.el6_5.3.x86_64                          38/103
+  Verifying  : yum-plugin-fastestmirror-1.1.30-17.el6_5.noarch           39/103
+  Verifying  : gvfs-archive-1.4.3-16.el6_5.x86_64                        40/103
+  Verifying  : audit-libs-2.2-4.el6_5.x86_64                             41/103
+  Verifying  : mysql-libs-5.1.73-3.el6_5.x86_64                          42/103
+  Verifying  : python-2.6.6-52.el6.x86_64                                43/103
+  Verifying  : grep-2.6.3-4.el6_5.1.x86_64                               44/103
+  Verifying  : util-linux-ng-2.17.2-12.14.el6_5.x86_64                   45/103
+  Verifying  : coreutils-8.4-31.el6_5.1.x86_64                           46/103
+  Verifying  : dracut-kernel-004-336.el6_5.2.noarch                      47/103
+  Verifying  : glibc-2.12-1.132.el6_5.2.x86_64                           48/103
+  Verifying  : coreutils-libs-8.4-31.el6_5.1.x86_64                      49/103
+  Verifying  : dracut-004-336.el6_5.2.noarch                             50/103
+  Verifying  : gvfs-1.4.3-16.el6_5.x86_64                                51/103
+  Verifying  : libuuid-2.17.2-12.14.el6_5.x86_64                         52/103
+  Verifying  : glibc-headers-2.12-1.132.el6_5.1.x86_64                   53/103
+  Verifying  : openssl-1.0.1e-15.el6.x86_64                              54/103
+  Verifying  : kpartx-0.4.9-72.el6.x86_64                                55/103
+  Verifying  : glibc-common-2.12-1.132.el6_5.1.x86_64                    56/103
+  Verifying  : gvfs-1.4.3-15.el6.x86_64                                  57/103
+  Verifying  : device-mapper-persistent-data-0.2.8-2.el6.x86_64          58/103
+  Verifying  : nss-softokn-3.14.3-9.el6.x86_64                           59/103
+  Verifying  : krb5-libs-1.10.3-10.el6_4.6.x86_64                        60/103
+  Verifying  : audit-2.2-2.el6.x86_64                                    61/103
+  Verifying  : nss-softokn-freebl-3.14.3-9.el6.x86_64                    62/103
+  Verifying  : curl-7.19.7-37.el6_4.x86_64                               63/103
+  Verifying  : gvfs-smb-1.4.3-15.el6.x86_64                              64/103
+  Verifying  : p11-kit-trust-0.18.5-2.el6.x86_64                         65/103
+  Verifying  : gvfs-fuse-1.4.3-15.el6.x86_64                             66/103
+  Verifying  : libtasn1-2.3-3.el6_2.1.x86_64                             67/103
+  Verifying  : dracut-004-335.el6.noarch                                 68/103
+  Verifying  : p11-kit-0.18.5-2.el6.x86_64                               69/103
+  Verifying  : glibc-2.12-1.132.el6_5.1.x86_64                           70/103
+  Verifying  : yum-3.2.29-40.el6.centos.noarch                           71/103
+  Verifying  : gvfs-archive-1.4.3-15.el6.x86_64                          72/103
+  Verifying  : gnutls-2.8.5-13.el6_5.x86_64                              73/103
+  Verifying  : libblkid-2.17.2-12.14.el6.x86_64                          74/103
+  Verifying  : openldap-2.4.23-32.el6_4.1.x86_64                         75/103
+  Verifying  : grep-2.6.3-4.el6.x86_64                                   76/103
+  Verifying  : selinux-policy-targeted-3.7.19-231.el6.noarch             77/103
+  Verifying  : centos-release-6-5.el6.centos.11.1.x86_64                 78/103
+  Verifying  : ca-certificates-2013.1.94-65.0.el6.noarch                 79/103
+  Verifying  : psmisc-22.6-15.el6_0.1.x86_64                             80/103
+  Verifying  : 2:ethtool-3.5-1.el6.x86_64                                81/103
+  Verifying  : iproute-2.6.32-31.el6.x86_64                              82/103
+  Verifying  : audit-libs-2.2-2.el6.x86_64                               83/103
+  Verifying  : 2:postfix-2.6.6-2.2.el6_1.x86_64                          84/103
+  Verifying  : tzdata-2013g-1.el6.noarch                                 85/103
+  Verifying  : coreutils-libs-8.4-31.el6.x86_64                          86/103
+  Verifying  : upstart-0.6.5-12.el6_4.1.x86_64                           87/103
+  Verifying  : mysql-libs-5.1.71-1.el6.x86_64                            88/103
+  Verifying  : kernel-firmware-2.6.32-431.el6.noarch                     89/103
+  Verifying  : device-mapper-multipath-0.4.9-72.el6.x86_64               90/103
+  Verifying  : yum-plugin-fastestmirror-1.1.30-14.el6.noarch             91/103
+  Verifying  : initscripts-9.03.40-2.el6.centos.x86_64                   92/103
+  Verifying  : util-linux-ng-2.17.2-12.14.el6.x86_64                     93/103
+  Verifying  : libuuid-2.17.2-12.14.el6.x86_64                           94/103
+  Verifying  : glibc-devel-2.12-1.132.el6_5.1.x86_64                     95/103
+  Verifying  : mdadm-3.2.6-7.el6.x86_64                                  96/103
+  Verifying  : device-mapper-multipath-libs-0.4.9-72.el6.x86_64          97/103
+  Verifying  : python-libs-2.6.6-51.el6.x86_64                           98/103
+  Verifying  : selinux-policy-3.7.19-231.el6.noarch                      99/103
+  Verifying  : dracut-kernel-004-335.el6.noarch                         100/103
+  Verifying  : coreutils-8.4-31.el6.x86_64                              101/103
+  Verifying  : python-2.6.6-51.el6.x86_64                               102/103
+  Verifying  : libcurl-7.19.7-37.el6_4.x86_64                           103/103
+vmmadbd00:
+vmmadbd00: Installed:
+vmmadbd00:   kernel.x86_64 0:2.6.32-431.17.1.el6
+vmmadbd00:
+vmmadbd00: Updated:
+vmmadbd00:   audit.x86_64 0:2.2-4.el6_5
+vmmadbd00:   audit-libs.x86_64 0:2.2-4.el6_5
+vmmadbd00:   ca-certificates.noarch 0:2013.1.95-65.1.el6_5
+vmmadbd00:   centos-release.x86_64 0:6-5.el6.centos.11.2
+vmmadbd00:   coreutils.x86_64 0:8.4-31.el6_5.1
+vmmadbd00:   coreutils-libs.x86_64 0:8.4-31.el6_5.1
+vmmadbd00:   curl.x86_64 0:7.19.7-37.el6_5.3
+vmmadbd00:   device-mapper-multipath.x86_64 0:0.4.9-72.el6_5.2
+vmmadbd00:   device-mapper-multipath-libs.x86_64 0:0.4.9-72.el6_5.2
+vmmadbd00:   device-mapper-persistent-data.x86_64 0:0.2.8-4.el6_5
+vmmadbd00:   dracut.noarch 0:004-336.el6_5.2
+vmmadbd00:   dracut-kernel.noarch 0:004-336.el6_5.2
+vmmadbd00:   ethtool.x86_64 2:3.5-1.4.el6_5
+vmmadbd00:   glibc.x86_64 0:2.12-1.132.el6_5.2
+vmmadbd00:   glibc-common.x86_64 0:2.12-1.132.el6_5.2
+vmmadbd00:   glibc-devel.x86_64 0:2.12-1.132.el6_5.2
+vmmadbd00:   glibc-headers.x86_64 0:2.12-1.132.el6_5.2
+vmmadbd00:   gnutls.x86_64 0:2.8.5-14.el6_5
+vmmadbd00:   grep.x86_64 0:2.6.3-4.el6_5.1
+vmmadbd00:   gvfs.x86_64 0:1.4.3-16.el6_5
+vmmadbd00:   gvfs-archive.x86_64 0:1.4.3-16.el6_5
+vmmadbd00:   gvfs-fuse.x86_64 0:1.4.3-16.el6_5
+vmmadbd00:   gvfs-smb.x86_64 0:1.4.3-16.el6_5
+vmmadbd00:   initscripts.x86_64 0:9.03.40-2.el6.centos.1
+vmmadbd00:   iproute.x86_64 0:2.6.32-32.el6_5
+vmmadbd00:   kernel-firmware.noarch 0:2.6.32-431.17.1.el6
+vmmadbd00:   kpartx.x86_64 0:0.4.9-72.el6_5.2
+vmmadbd00:   krb5-libs.x86_64 0:1.10.3-15.el6_5.1
+vmmadbd00:   libblkid.x86_64 0:2.17.2-12.14.el6_5
+vmmadbd00:   libcurl.x86_64 0:7.19.7-37.el6_5.3
+vmmadbd00:   libtasn1.x86_64 0:2.3-6.el6_5
+vmmadbd00:   libuuid.x86_64 0:2.17.2-12.14.el6_5
+vmmadbd00:   mdadm.x86_64 0:3.2.6-7.el6_5.2
+vmmadbd00:   mysql-libs.x86_64 0:5.1.73-3.el6_5
+vmmadbd00:   nss-softokn.x86_64 0:3.14.3-10.el6_5
+vmmadbd00:   nss-softokn-freebl.x86_64 0:3.14.3-10.el6_5
+vmmadbd00:   openldap.x86_64 0:2.4.23-34.el6_5.1
+vmmadbd00:   openssl.x86_64 0:1.0.1e-16.el6_5.14
+vmmadbd00:   p11-kit.x86_64 0:0.18.5-2.el6_5.2
+vmmadbd00:   p11-kit-trust.x86_64 0:0.18.5-2.el6_5.2
+vmmadbd00:   postfix.x86_64 2:2.6.6-6.el6_5
+vmmadbd00:   psmisc.x86_64 0:22.6-19.el6_5
+vmmadbd00:   python.x86_64 0:2.6.6-52.el6
+vmmadbd00:   python-libs.x86_64 0:2.6.6-52.el6
+vmmadbd00:   selinux-policy.noarch 0:3.7.19-231.el6_5.3
+vmmadbd00:   selinux-policy-targeted.noarch 0:3.7.19-231.el6_5.3
+vmmadbd00:   tzdata.noarch 0:2014d-1.el6
+vmmadbd00:   upstart.x86_64 0:0.6.5-13.el6_5.3
+vmmadbd00:   util-linux-ng.x86_64 0:2.17.2-12.14.el6_5
+vmmadbd00:   yum.noarch 0:3.2.29-43.el6.centos
+vmmadbd00:   yum-plugin-fastestmirror.noarch 0:1.1.30-17.el6_5
+vmmadbd00:
+vmmadbd00: Complete!
+master01.bigdata: Loaded plugins: fastestmirror
+master01.bigdata: Loading mirror speeds from cached hostfile
+master01.bigdata:  * base: centos.crazyfrogs.org
+master01.bigdata:  * extras: centos.crazyfrogs.org
+master01.bigdata:  * updates: centos.crazyfrogs.org
+master01.bigdata: Setting up Update Process
+master01.bigdata: No Packages marked for Update
+worker01.bigdata: Loaded plugins: fastestmirror
+worker01.bigdata: Loading mirror speeds from cached hostfile
+worker01.bigdata:  * base: centos.crazyfrogs.org
+worker01.bigdata:  * extras: centos.crazyfrogs.org
+worker01.bigdata:  * updates: centos.crazyfrogs.org
+worker01.bigdata: Setting up Update Process
+worker01.bigdata: No Packages marked for Update
+worker02.bigdata: Loaded plugins: fastestmirror
+worker02.bigdata: Loading mirror speeds from cached hostfile
+worker02.bigdata:  * base: centos.crazyfrogs.org
+worker02.bigdata:  * extras: centos.crazyfrogs.org
+worker02.bigdata:  * updates: centos.crazyfrogs.org
+worker02.bigdata: Setting up Update Process
+worker02.bigdata: No Packages marked for Update
+lab01.bigdata: Loaded plugins: fastestmirror
+lab01.bigdata: Loading mirror speeds from cached hostfile
+lab01.bigdata:  * base: ftp.heanet.ie
+lab01.bigdata:  * extras: ftp.heanet.ie
+lab01.bigdata:  * updates: ftp.heanet.ie
+lab01.bigdata: Setting up Update Process
+lab01.bigdata: No Packages marked for Update
+lab02.bigdata: Loaded plugins: fastestmirror
+lab02.bigdata: Loading mirror speeds from cached hostfile
+lab02.bigdata:  * base: ftp.heanet.ie
+lab02.bigdata:  * extras: ftp.heanet.ie
+lab02.bigdata:  * updates: centosn4.centos.org
+lab02.bigdata: Setting up Update Process
+lab02.bigdata: No Packages marked for Update
+
+*************************************************************************************
+Además, se puede consultar /var/log/yum.log de cada máquina para más información.
