@@ -1,10 +1,9 @@
 node 'newnode' {
   include every_node
 }
-# Compatibles? Uno tiene /data01 y otro crea un link
 node 'master01.bigdata' {
   include hadoop_master
-  #include hadoop_slave
+  include hadoop_old_demo
 }
 node 'worker01.bigdata' {
   include hadoop_slave
