@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+COMMAND='rm -fr /data01/hadoop/logs/*'
+HOSTS='
+  master01.bigdata
+  worker01.bigdata
+  worker02.bigdata
+'
+
+for HOST in ${HOSTS}; do
+  ssh ${HOST} ${COMMAND} 2>&1 | sed "s/^/${HOST}: /" &
+done
+wait

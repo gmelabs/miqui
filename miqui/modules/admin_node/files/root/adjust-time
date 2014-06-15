@@ -14,25 +14,21 @@ else
   export     DAY=$3
   export    HOUR=$4
   export  MINUTE=$5
-  export COMMAND="date ${MONTH}${DAY}${HOUR}${MINUTE}${YEAR}"
+  
+  COMMAND="date ${MONTH}${DAY}${HOUR}${MINUTE}${YEAR}"
+  HOSTS='
+    master01.bigdata
+    worker01.bigdata
+    worker02.bigdata
+    lab01.bigdata
+    lab02.bigdata
+  '
   
   # Set own time
-  eval $COMMAND
+  eval $COMMAND 2>&1 | sed "s/^/$HOSTNAME: /"
   
   # Set time on remote hosts
-  for host in `cat <<EOF
-master01.bigdata
-master02.bigdata
-worker01.bigdata
-worker02.bigdata
-worker03.bigdata
-worker04.bigdata
-lab01.bigdata
-lab02.bigdata
-shared01.bigdata
-shared02.bigdata
-EOF`
-  do
+  for host in ${HOSTS}; do
     ssh $host $COMMAND 2>&1 | sed "s/^/$host: /" &
   done
   wait

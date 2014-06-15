@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+COMMAND='./puppet-apply.sh'
+HOSTS='
+  master01.bigdata
+  worker01.bigdata
+  worker02.bigdata
+  lab01.bigdata
+  lab02.bigdata
+'
+
+for HOST in ${HOSTS}; do
+  ssh ${HOST} ${COMMAND} 2>&1 | sed "s/^/${HOST}: /" &
+done
+wait

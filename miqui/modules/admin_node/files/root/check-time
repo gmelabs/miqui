@@ -7,25 +7,20 @@
 # executed on all hosts at the same time.
 #######################################################
 
-export COMMAND='date +"%Y-%m-%d %H:%M:%S"'
+COMMAND='date +"%Y-%m-%d %H:%M:%S"'
+HOSTS='
+  master01.bigdata
+  worker01.bigdata
+  worker02.bigdata
+  lab01.bigdata
+  lab02.bigdata
+'
 
 # Check own time
 eval $COMMAND 2>&1 | sed "s/^/$HOSTNAME: /"
 
 # Check time on remote hosts
-for host in `cat <<EOF
-master01.bigdata
-master02.bigdata
-worker01.bigdata
-worker02.bigdata
-worker03.bigdata
-worker04.bigdata
-lab01.bigdata
-lab02.bigdata
-shared01.bigdata
-shared02.bigdata
-EOF`
-do
+for host in ${HOSTS}; do
   ssh $host $COMMAND 2>&1 | sed "s/^/$host: /" &
 done
 wait
