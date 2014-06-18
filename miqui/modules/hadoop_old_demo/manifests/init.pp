@@ -26,12 +26,16 @@ class hadoop_old_demo {
     path    => '/home/demo/jobs',
     ensure  => directory,
     mode    => '0755',
+    owner   => 'demo',
+    group   => 'hadoop',
     require => File['demo_home'],
   }
   file { 'usecases_dir':
     path    => '/home/demo/jobs/usecases',
     ensure  => directory,
     mode    => '0755',
+    owner   => 'demo',
+    group   => 'hadoop',
     require => File['demo_jobs_dir'],
   }
   file { '/home/demo/jobs/usecases/lib':
