@@ -1,6 +1,9 @@
 node 'newnode' {
   include every_node
 }
+node 'newnode.vm' {
+  include every_node
+}
 node 'master01.bigdata' {
   include hadoop_master
   include hadoop_old_demo
