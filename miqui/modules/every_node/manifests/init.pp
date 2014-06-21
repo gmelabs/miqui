@@ -43,4 +43,16 @@ class every_node {
   package { 'tftp':
     ensure => installed,
   }
+  file { 'RPM-GPG-KEY-EPEL':
+    path   => '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL',
+    source => 'puppet:///modules/every_node/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL',
+    mode   => '0444',
+  }
+  yumrepo { 'epel':
+    mirrorlist => 'http://mirrors.fedoraproject.org/mirrorlist?repo=epel-6&arch=x86_64',
+    enabled    => 1,
+    gpgcheck   => 1,
+    gpgkey     => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL',
+    require    => File['RPM-GPG-KEY-EPEL'],
+  }
 }
