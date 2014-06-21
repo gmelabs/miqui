@@ -21,3 +21,4 @@ node 'lab02.bigdata' {
   include every_node
   include virtualbox
 }
+Package {  allow_virtual => false, }
