@@ -1,11 +1,12 @@
 node 'vmmadbd00' {
-  #include every_node
+  #class { 'every_node':
+  #  hostname => 'admin.bigdata',
+  #}
   #include admin_node
   #include gitorious
   #include tomcat
-  #include ganglia::gmond
-  #include ganglia::gmetad
-  #include ganglia::gweb
+  #include ganglia::gmetad  #<-- TODO
+  #include ganglia::gweb    #<-- TODO
 }
 node 'newnode' {
   class { 'every_node':
