@@ -1,3 +1,9 @@
+node 'vmmadbd00' {
+  #include every_node
+  #include admin_node
+  #include gitorious
+  #include tomcat
+}
 node 'newnode' {
   class { 'every_node':
     hostname => 'newnode.bigdata',
@@ -14,7 +20,6 @@ node 'worker01.bigdata' {
     hostname => 'worker01.bigdata',
   }
   #include elasticsearch
-  include every_node
 }
 node 'worker02.bigdata' {
   class { 'hadoop_slave':
