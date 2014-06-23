@@ -142,7 +142,10 @@ class storm {
 }
 
 class storm::nimbus inherits storm {
-  include master_node
+  # TODO: Actualmente esta funcionando sin esto porque comparte nodo con hadoop_master
+  # sin embargo debería comportarse de forma aislada como en el resto de casos
+  # Necesitara recibir argumento para establecer atributo $hostname
+  #include master_node
   include supervisord::storm_nimbus
   # DATA LOCATIONS:
   file { 'data01_storm':
@@ -156,7 +159,10 @@ class storm::nimbus inherits storm {
 }
 
 class storm::supervisor inherits storm {
-  include worker_node
+  # TODO: Actualmente esta funcionando sin esto porque comparte nodo con hadoop_master
+  # sin embargo debería comportarse de forma aislada como en el resto de casos
+  # Necesitara recibir argumento para establecer atributo $hostname
+  #include worker_node
   include supervisord::storm_supervisor
   # DATA LOCATIONS:
   file { 'data01_storm':
