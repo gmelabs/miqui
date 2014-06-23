@@ -23,14 +23,16 @@ node 'worker01.bigdata' {
   class { 'hadoop_slave':
     hostname => 'worker01.bigdata',
   }
-  #include elasticsearch
+  #class { 'elasticsearch':
+  #  hostname => 'worker01.bigdata',
+  #}
 }
 node 'worker02.bigdata' {
   class { 'hadoop_slave':
     hostname => 'worker02.bigdata',
   }
 }
-node 'lab01.bigdata'{
+node 'lab01.bigdata' {
   class { 'worker_node':
     hostname => 'lab01.bigdata',
   }
@@ -44,4 +46,5 @@ node 'lab02.bigdata' {
   include virtualbox
   #include nfs::client
 }
+
 Package {  allow_virtual => true, }
