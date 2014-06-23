@@ -14,14 +14,6 @@ class hadoop_master ($hostname) {
     group   => 'hadoop',
     require => User['hdadmin'],
   }
-  
-  # In virtual appliance, master node is also slave and so link cannot be created. It's ok.
-  file { '/data01':
-    ensure  => link,
-    target  => '/',
-    require => User['hdadmin'],
-  }
-  
   file { 'hadoop_master_tmp':
     path    => '/data01/hadoop/tmp',
     ensure  => directory,
