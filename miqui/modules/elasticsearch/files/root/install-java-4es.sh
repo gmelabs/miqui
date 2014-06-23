@@ -7,11 +7,11 @@ export ESADMIN_GROUP=elastic
 export ESADMIN_SOFTWARE_PATH=/home/${ESADMIN_USER}/software
 export ESADMIN_RUNTIME_PATH=/home/${ESADMIN_USER}/runtime
 
-export JAVA_INSTALLED_FLAG=/root/java7-installed-by-puppet
+export JAVA_INSTALLED_FLAG=/root/java-4es-installed-by-puppet
 export TFTP_SERVER=madbd00
 export TFTP_SOFTWARE_URI=software
-export JAVA_TARBALL=jdk-1.7.0_XX.tgz
-export JAVA_TARBALL_CONTENT=jdk-1.7.0_XX
+export JAVA_TARBALL=jdk-1.7.0_55.tgz
+export JAVA_TARBALL_CONTENT=jdk-1.7.0_55
 
 DATE=`date +"%Y-%m-%d %H:%M:%S"`
 echo "$DATE Start Java installation on node..."
@@ -23,7 +23,7 @@ su - ${ESADMIN_USER} -c "tar xvf /tmp/${JAVA_TARBALL} --directory=${ESADMIN_SOFT
 su - ${ESADMIN_USER} -c "ln -s ${ESADMIN_SOFTWARE_PATH}/${JAVA_TARBALL_CONTENT} ${ESADMIN_RUNTIME_PATH}/java"
 # -------------------------------------------------------------------------------------------------------------
 # Create "flag" file
-echo -e "Java7's been installed on this machine by puppet. Don't delete this file.\n" > $JAVA_INSTALLED_FLAG
+echo -e "Java's been installed on this machine by puppet. Don't delete this file.\n" > $JAVA_INSTALLED_FLAG
 chmod 400 $JAVA_INSTALLED_FLAG
 # -------------------------------------------------------------------------------------------------------------
 DATE=`date +"%Y-%m-%d %H:%M:%S"`
