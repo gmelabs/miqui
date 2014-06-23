@@ -1,7 +1,5 @@
 class hadoop {
   
-  include every_node
-  
   group { 'hadoop':
     ensure => present,
   }
@@ -17,6 +15,8 @@ class hadoop {
     path    => '/home/hdadmin',
     ensure  => directory,
     mode    => '0750',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
     require => User['hdadmin'],
   }
   file { 'hdsoftware':
@@ -83,12 +83,12 @@ class hadoop {
     source => 'puppet:///modules/hadoop/root/install-hadoop.sh',
     mode   => '0700',
   }
-
+  
   exec { 'do-install-java':
     command => '/root/install-java.sh > /root/java-install.log',
     creates => '/root/java-installed-by-puppet',
     require => [
-      File['install-java', 'hdsoftware'],
+      File['install-java', 'hdsoftware', 'hdruntime'],
       User['hdadmin'],
       Package['tftp'],
       Service['iptables'],
@@ -98,7 +98,7 @@ class hadoop {
     command => '/root/install-hadoop.sh > /root/hadoop-install.log',
     creates => '/root/hadoop-installed-by-puppet',
     require => [
-      File['install-hadoop', 'hdsoftware'],
+      File['install-hadoop', 'hdsoftware', 'hdruntime'],
       User['hdadmin'],
       Package['tftp'],
       Service['iptables'],
@@ -106,11 +106,13 @@ class hadoop {
   }
   file { 'java-installed.flag':
     path => '/root/java-installed-by-puppet',
+    require => Exec['do-install-java'],
   }
   file { 'hadoop-installed.flag':
     path => '/root/hadoop-installed-by-puppet',
+    require => Exec['do-install-hadoop'],
   }
-
+  
   file { 'hadoop_conf_dir':
     path    => '/home/hdadmin/software/hadoop-1.2.1/conf',
     ensure  => directory,
@@ -119,6 +121,8 @@ class hadoop {
     group   => 'hadoop',
     require => File['hadoop-installed.flag'],
   }
+  
+  # CONFIG FILES:
   file { 'capacity-scheduler':
     path    => '/home/hdadmin/software/hadoop-1.2.1/conf/capacity-scheduler.xml',
     source  => 'puppet:///modules/hadoop/1.2.1/conf/capacity-scheduler.xml',
