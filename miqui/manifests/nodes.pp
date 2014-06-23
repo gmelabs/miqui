@@ -3,6 +3,9 @@ node 'vmmadbd00' {
   #include admin_node
   #include gitorious
   #include tomcat
+  #include ganglia::gmond
+  #include ganglia::gmetad
+  #include ganglia::gweb
 }
 node 'newnode' {
   class { 'every_node':
