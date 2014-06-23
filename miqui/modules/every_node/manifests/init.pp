@@ -43,13 +43,6 @@ class every_node ($hostname) {
   package { 'tftp':
     ensure => installed,
   }
-    user { 'admin':
-    ensure     => present,
-    password   => '$6$n.yvcgz2rI$qOgnYG8zI/OzB2UCeeKtPCBQGGDVBSz/edTjTWPpZy6yLt9N.ds50xszvkQJ9NEs3LlxcMUXvX9GcRHaL7c7H0',
-    managehome => true,
-    home       => '/home/admin',
-    shell      => '/bin/bash',
-  }
   file { 'RPM-GPG-KEY-EPEL-6':
     path   => '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6',
     source => 'puppet:///modules/every_node/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6',
