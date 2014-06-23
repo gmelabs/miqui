@@ -22,13 +22,13 @@ chown ${HDADMIN_USER}:${HDADMIN_GROUP} /tmp/${HADOOP_TARBALL}
 su - ${HDADMIN_USER} -c "tar xvf /tmp/${HADOOP_TARBALL} --directory=${HDADMIN_SOFTWARE_PATH}/"
 su - ${HDADMIN_USER} -c "ln -s ${HDADMIN_SOFTWARE_PATH}/${HADOOP_TARBALL_CONTENT} ${HDADMIN_RUNTIME_PATH}/hadoop"
 
-# Disable IPv6?
-sed -i -r -e '/^#Puppet: Disable IPv6/d' -e '/^net.ipv6.conf./d' /etc/sysctl.conf
-echo -e "#Puppet: Disable IPv6\nnet.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1\nnet.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
-sysctl -w net.ipv6.conf.all.disable_ipv6=1
-sysctl -w net.ipv6.conf.default.disable_ipv6=1
-sysctl -w net.ipv6.conf.lo.disable_ipv6=1
-service network restart
+## Disable IPv6?
+#sed -i -r -e '/^#Puppet: Disable IPv6/d' -e '/^net.ipv6.conf./d' /etc/sysctl.conf
+#echo -e "#Puppet: Disable IPv6\nnet.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1\nnet.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
+#sysctl -w net.ipv6.conf.all.disable_ipv6=1
+#sysctl -w net.ipv6.conf.default.disable_ipv6=1
+#sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+#service network restart
 
 # -------------------------------------------------------------------------------------------------------------
 # Create "flag" file
