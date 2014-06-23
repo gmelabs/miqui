@@ -59,6 +59,7 @@ class every_node ($hostname) {
     ensure  => installed,
     require => Yumrepo['epel'],
   }
+  # Requires $hostname attribute
   file { 'gmond.conf':
     path    => '/etc/gmond.conf',
     content => template('every_node/etc/gmond.conf.erb'),
