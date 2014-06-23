@@ -155,15 +155,15 @@ node.max_local_storage_nodes: 1
 # the locations (a la RAID 0) on a file level, favouring locations with most free
 # space on creation. For example:
 #
-#path.data: /path/to/data1,/path/to/data2
+path.data: /data02/elasticsearch/data,/data03/elasticsearch/data,/data04/elasticsearch/data
 
 # Path to temporary files:
 #
-#path.work: /path/to/work
+path.work: /data05/elasticsearch/tmp
 
 # Path to log files:
 #
-#path.logs: /path/to/logs
+path.logs: /data06/elasticsearch/logs
 
 # Path to where plugins are installed:
 #
