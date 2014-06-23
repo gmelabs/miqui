@@ -1,6 +1,9 @@
-class zookeeper ($serverId = '1') {
+class zookeeper ($hostname, $serverId) {
   
-  include worker_node
+  class { 'worker_node':
+    hostname => $hostname,
+  }
+  
   include supervisord::supervisord_zookeeper
   
   group { 'zookeeper':
