@@ -1,20 +1,17 @@
-class hadoop_master {
+class hadoop_master ($hostname) {
   
+  class { 'master_node':
+    hostname => $hostname,
+  }
   include hadoop
   
+  # DATA LOCATIONS:
   file { 'hadoop_folder':
     path    => '/hadoop',
     ensure  => directory,
     mode    => '0755',
     owner   => 'hdadmin',
     group   => 'hadoop',
-    require => User['hdadmin'],
-  }
-  
-  # In virtual appliance, master node is also slave and so link cannot be created. It's ok.
-  file { '/data01':
-    ensure  => link,
-    target  => '/',
     require => User['hdadmin'],
   }
   

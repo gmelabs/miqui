@@ -1,4 +1,4 @@
-class every_node {
+class every_node ($hostname) {
   
   file { 'hosts':
     path   => '/etc/hosts',
@@ -43,6 +43,13 @@ class every_node {
   package { 'tftp':
     ensure => installed,
   }
+    user { 'admin':
+    ensure     => present,
+    password   => '$6$n.yvcgz2rI$qOgnYG8zI/OzB2UCeeKtPCBQGGDVBSz/edTjTWPpZy6yLt9N.ds50xszvkQJ9NEs3LlxcMUXvX9GcRHaL7c7H0',
+    managehome => true,
+    home       => '/home/admin',
+    shell      => '/bin/bash',
+  }
   file { 'RPM-GPG-KEY-EPEL-6':
     path   => '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6',
     source => 'puppet:///modules/every_node/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6',
@@ -54,5 +61,17 @@ class every_node {
     gpgcheck   => 1,
     gpgkey     => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6',
     require    => File['RPM-GPG-KEY-EPEL-6'],
+  }
+  package { 'ganglia-gmond':
+    ensure  => installed,
+    require => Yumrepo['epel'],
+  }
+  file { 'gmond.conf':
+    path    => '/etc/gmond.conf',
+    content => template('every_node/etc/gmond.conf.erb'),
+    owner   => 'ganglia',
+    group   => 'ganglia',
+    mode    => '644',
+    require => 'ganglia-gmond',
   }
 }
