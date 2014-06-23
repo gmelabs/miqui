@@ -72,6 +72,6 @@ class every_node ($hostname) {
     owner   => 'ganglia',
     group   => 'ganglia',
     mode    => '644',
-    require => 'ganglia-gmond',
+    require => Package['ganglia-gmond'],
   }
 }
