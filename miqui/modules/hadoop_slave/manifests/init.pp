@@ -1,8 +1,6 @@
-class hadoop_slave ($hostname) {
+class hadoop_slave {
   
-  class { 'worker_node':
-    hostname => $hostname,
-  }
+  include worker_node
   include hadoop
   
   # DATA LOCATIONS:

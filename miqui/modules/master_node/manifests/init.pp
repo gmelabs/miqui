@@ -1,8 +1,6 @@
-class master_node ($hostname) {
+class master_node {
   
-  class { 'every_node':
-    hostname => $hostname,
-  }
+  include every_node
   
   # DATA LOCATIONS:
   file { '/data01':

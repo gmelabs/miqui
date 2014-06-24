@@ -1,8 +1,6 @@
-class hadoop_master ($hostname) {
+class hadoop_master {
   
-  class { 'master_node':
-    hostname => $hostname,
-  }
+  include master_node
   include hadoop
   
   # DATA LOCATIONS:

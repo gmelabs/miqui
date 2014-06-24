@@ -1,8 +1,6 @@
-class elasticsearch ($hostname) {
+class elasticsearch {
   
-  class { 'worker_node':
-    hostname => $hostname,
-  }
+  include 'worker_node'
   
   group { 'elastic':
     ensure => present,
