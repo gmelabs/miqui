@@ -14,9 +14,11 @@ node 'newnode' {
 node 'master01.bigdata' {
   include hadoop_master
   include hadoop_old_demo
+  include nfs::client
 }
 node 'worker01.bigdata' {
   include hadoop_slave
+  include nfs::server
   #class { 'elasticsearch':
   #  hostname => 'worker01.bigdata',
   #}
