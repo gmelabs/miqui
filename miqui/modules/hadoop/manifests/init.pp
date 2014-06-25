@@ -349,7 +349,6 @@ class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
     fstype   => 'nfs4',
     ensure   => 'mounted',
     options  => 'remount',
-    target   => '/etc/fstab',
     atboot   => true,
     require  => File[$requiredResourceId],
   }
