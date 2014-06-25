@@ -336,6 +336,7 @@ class hadoop::master::share_data01_hadoop_nn_mirror inherits nfs::share {
 # Mounts an existing external shared folder...
 class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
   $mountResourceId = 'mount-data01_hadoop_nn_mirror'
+  $execResourceId  = 'do-mount-data01_hadoop_nn_mirror'
   $requiredResourceId = 'nfs_nn_mirror'
   $mountPath = '/data01/hadoop/dfs/nfs_nn_mirror'
   $sharedDevice = 'worker01.bigdata'
@@ -350,6 +351,12 @@ class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
     ensure   => 'mounted',
     options  => 'remount',
     atboot   => true,
+    require  => Exec[$execResourceId],
+  }
+  # mount -t nfs4 worker01.bigdata:/data01/hadoop/nn_mirror /data01/hadoop/dfs/nfs_nn_mirror
+  exec { "$execResourceId":
+    onlyif  => "/bin/mount | /bin/egrep -c '^${sharedDevice}:${sharedPath}[ ]' /etc/exports",
+    command => "/bin/mount -t nfs4 ${sharedDevice}:${sharedPath} ${mountPath}",
     require  => File[$requiredResourceId],
   }
 }
