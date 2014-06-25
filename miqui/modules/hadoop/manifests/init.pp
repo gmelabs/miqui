@@ -343,29 +343,13 @@ class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
   # ---------------------------------------------------------
   # do not modify beyond this line
   # ---------------------------------------------------------
-  
-  #FIXME: Si ya está montada,
-  if("/bin/egrep -c '^${sharedDevice}:${sharedPath}' /etc/fstab" == 1){
-    mount { "$mountResourceId":
-      name     => "${mountPath}",
-      device   => "${sharedDevice}:${sharedPath}",
-      fstype   => 'nfs4',
-      ensure   => 'present',
-      options  => 'defaults',
-      atboot   => true,
-      require  => File[$requiredResourceId],
-    }
+  mount { "$mountResourceId":
+    name     => "${mountPath}",
+    device   => "${sharedDevice}:${sharedPath}",
+    fstype   => 'nfs4',
+    ensure   => 'present',
+    options  => 'defaults',
+    atboot   => true,
+    require  => File[$requiredResourceId],
   }
-  else{
-	  mount { "$mountResourceId":
-	    name     => "${mountPath}",
-	    device   => "${sharedDevice}:${sharedPath}",
-	    fstype   => 'nfs4',
-	    ensure   => 'mounted',
-	    options  => 'defaults',
-	    atboot   => true,
-	    require  => File[$requiredResourceId],
-	  }
-  }
-
 }
