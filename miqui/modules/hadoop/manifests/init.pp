@@ -348,7 +348,6 @@ class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
     device   => "${sharedDevice}:${sharedPath}",
     fstype   => 'nfs4',
     ensure   => 'mounted',
-    remounts => true,
     options  => 'defaults',
     atboot   => true,
     require  => File[$requiredResourceId],
