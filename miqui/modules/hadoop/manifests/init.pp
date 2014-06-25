@@ -344,6 +344,12 @@ class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
   # ---------------------------------------------------------
   # do not modify beyond this line
   # ---------------------------------------------------------
+  # mount -t nfs4 worker01.bigdata:/data01/hadoop/nn_mirror /data01/hadoop/dfs/nfs_nn_mirror
+  exec { "$execResourceId":
+    onlyif  => "/bin/mount | /bin/egrep -c '^${sharedDevice}:${mountPath}[ ]'",
+    command => "/bin/mount -t nfs4 ${sharedDevice}:${sharedPath} ${mountPath}",
+    require  => File[$requiredResourceId],
+  }
   mount { "$mountResourceId":
     name     => "${mountPath}",
     device   => "${sharedDevice}:${sharedPath}",
@@ -352,11 +358,5 @@ class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
     options  => 'remount',
     atboot   => true,
     require  => Exec[$execResourceId],
-  }
-  # mount -t nfs4 worker01.bigdata:/data01/hadoop/nn_mirror /data01/hadoop/dfs/nfs_nn_mirror
-  exec { "$execResourceId":
-    onlyif  => "/bin/mount | /bin/egrep -c '^${sharedDevice}:${mountPath}[ ]'",
-    command => "/bin/mount -t nfs4 ${sharedDevice}:${sharedPath} ${mountPath}",
-    require  => File[$requiredResourceId],
   }
 }
