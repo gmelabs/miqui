@@ -337,8 +337,8 @@ class hadoop::master::share_data01_hadoop_nn_mirror inherits nfs::share {
 class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
   $mountResourceId = 'mount-data01_hadoop_nn_mirror'
   $requiredResourceId = 'nfs_nn_mirror'
-  $mountPath = '/data01/hadoop/nn_mirror'
-  $sharedDevice = 'master02.bigdata'
+  $mountPath = '/data01/hadoop/dfs/nfs_nn_mirror'
+  $sharedDevice = 'worker01.bigdata'
   $sharedPath   = '/data01/hadoop/nn_mirror'
   # ---------------------------------------------------------
   # do not modify beyond this line
