@@ -276,3 +276,68 @@ class hadoop {
     require => File['hadoop_conf_dir'],
   }
 }
+
+# Shares a directory using nfs
+class hadoop::master::share_data01_hadoop_nn_mirror inherits nfs::share {
+  $execResourceId = 'do-share-data01_hadoop_nn_mirror'
+  $requiredResourceId = 'nn_mirror'
+  $sharedPath = '/data01/hadoop/nn_mirror'
+  $sharedTo   = '192.168.1.0/24'
+  $mode       = 'rw'
+  $syncmode   = 'async'
+  
+  # Ensure that sharedPath directory exists
+  file{'nn_mirror':
+    path    => '/data01/hadoop/nn_mirror',
+    ensure  => directory,
+    mode    => '0775',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['data01_hadoop'],
+  }
+
+  # ---------------------------------------------------------
+  # do not modify beyond this line
+  # ---------------------------------------------------------
+  exec { "$execResourceId":
+    onlyif  => "/bin/egrep -c -v '^${sharedPath}[ ]' /etc/exports",
+    command => "/bin/echo ${sharedPath} ${sharedTo}(${mode},${syncmode}) >> /etc/exports",
+    require => [
+      Exec['do-reset-exports-list'],
+      File[$requiredResourceId]
+    ],
+  }
+  Exec["$execResourceId"] -> Exec['exportfs']
+}
+
+# Mounts an existing external shared folder...
+class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
+  $mountResourceId = 'mount-data01_hadoop_nn_mirror'
+  $requiredResourceId = 'nn_mirror'
+  $mountPath = '/data01/hadoop/nn_mirror'
+  $sharedDevice = 'master02.bigdata'
+  $sharedPath   = '/data01/hadoop/nn_mirror'
+  
+  # Ensure that mountPath directory exists
+  file{"$requiredResourceId":
+    path    => '/data01/hadoop/nn_mirror',
+    ensure  => directory,
+    mode    => '0775',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hadoop_folder'],
+  }
+  
+  # ---------------------------------------------------------
+  # do not modify beyond this line
+  # ---------------------------------------------------------
+  mount { "$mountResourceId":
+    name    => "${mountPath}",
+    device  => "${sharedDevice}:${sharedPath}",
+    fstype  => 'nfs4',
+    ensure  => 'mounted',
+    options => 'defaults',
+    atboot  => true,
+    require => File[$requiredResourceId],
+  }
+}
