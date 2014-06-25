@@ -324,7 +324,7 @@ class hadoop::master::share_data01_hadoop_nn_mirror inherits nfs::share {
   # ---------------------------------------------------------
   exec { "$execResourceId":
     onlyif  => "/bin/egrep -c -v '^${sharedPath}[ ]' /etc/exports",
-    command => "/bin/echo ${sharedPath} ${sharedTo}'('${mode},${syncmode}')'' >> /etc/exports",
+    command => "/bin/echo ${sharedPath} ${sharedTo}'('${mode},${syncmode}')' >> /etc/exports",
     require => [
       Exec['do-reset-exports-list'],
       File[$requiredResourceId]
