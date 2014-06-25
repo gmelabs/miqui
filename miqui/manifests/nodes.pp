@@ -14,11 +14,11 @@ node 'newnode' {
 node 'master01.bigdata' {
   include hadoop_master
   include hadoop_old_demo
-  include hadoop::master::mount_data01_hadoop_nn_mirror
+  include hadoop::master::nn
 }
 node 'worker01.bigdata' {
   include hadoop_slave
-  include hadoop::master::share_data01_hadoop_nn_mirror
+  include hadoop::master::nn_mirror
   #class { 'elasticsearch':
   #  hostname => 'worker01.bigdata',
   #}

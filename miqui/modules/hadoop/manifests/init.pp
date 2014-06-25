@@ -277,6 +277,40 @@ class hadoop {
   }
 }
 
+class hadoop::master::nn {
+  include hadoop::master::mount_data01_hadoop_nn_mirror
+  # Ensure that mountPath directory exists
+  file { 'hadoop_dfs':
+    path    => '/data01/hadoop/dfs',
+    ensure  => directory,
+    mode    => '0775',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hadoop_folder'],
+  }
+  file { 'nfs_nn_mirror':
+    path    => '/data01/hadoop/dfs/nfs_nn_mirror',
+    ensure  => directory,
+    mode    => '0775',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hadoop_dfs'],
+  }
+  
+}
+class hadoop::master::nn_mirror {
+  include hadoop::master::share_data01_hadoop_nn_mirror
+  # Ensure that sharedPath directory exists
+  file { 'nn_mirror':
+    path    => '/data01/hadoop/nn_mirror',
+    ensure  => directory,
+    mode    => '0775',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['data01_hadoop'],
+  }
+}
+
 # Shares a directory using nfs
 class hadoop::master::share_data01_hadoop_nn_mirror inherits nfs::share {
   $execResourceId = 'do-share-data01_hadoop_nn_mirror'
@@ -285,17 +319,6 @@ class hadoop::master::share_data01_hadoop_nn_mirror inherits nfs::share {
   $sharedTo   = '192.168.1.0/24'
   $mode       = 'rw'
   $syncmode   = 'async'
-  
-  # Ensure that sharedPath directory exists
-  file{'nn_mirror':
-    path    => '/data01/hadoop/nn_mirror',
-    ensure  => directory,
-    mode    => '0775',
-    owner   => 'hdadmin',
-    group   => 'hadoop',
-    require => File['data01_hadoop'],
-  }
-
   # ---------------------------------------------------------
   # do not modify beyond this line
   # ---------------------------------------------------------
@@ -313,21 +336,10 @@ class hadoop::master::share_data01_hadoop_nn_mirror inherits nfs::share {
 # Mounts an existing external shared folder...
 class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
   $mountResourceId = 'mount-data01_hadoop_nn_mirror'
-  $requiredResourceId = 'nn_mirror'
+  $requiredResourceId = 'nfs_nn_mirror'
   $mountPath = '/data01/hadoop/nn_mirror'
   $sharedDevice = 'master02.bigdata'
   $sharedPath   = '/data01/hadoop/nn_mirror'
-  
-  # Ensure that mountPath directory exists
-  file{"$requiredResourceId":
-    path    => '/data01/hadoop/nn_mirror',
-    ensure  => directory,
-    mode    => '0775',
-    owner   => 'hdadmin',
-    group   => 'hadoop',
-    require => File['hadoop_folder'],
-  }
-  
   # ---------------------------------------------------------
   # do not modify beyond this line
   # ---------------------------------------------------------
