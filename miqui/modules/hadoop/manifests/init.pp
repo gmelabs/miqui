@@ -346,7 +346,7 @@ class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
   # ---------------------------------------------------------
 
   exec { "$execResourceId":
-    onlyif  => "/bin/mount | /bin/egrep -c '^${sharedDevice}':'${mountPath}[ ]' | /bin/egrep -c '^0'",
+    onlyif  => "/bin/cat /proc/mounts | /bin/egrep -c '^${sharedDevice}':'${mountPath}[ ]' | /bin/egrep -c '^0'",
     command => "/bin/mount -t nfs4 ${sharedDevice}:${sharedPath} ${mountPath}",
     require  => File[$requiredResourceId],
   }
