@@ -1,7 +1,6 @@
 class zookeeper ($serverId) {
   
   include worker_node
-  
   include supervisord::supervisord_zookeeper
   
   group { 'zookeeper':

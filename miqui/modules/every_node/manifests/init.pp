@@ -37,7 +37,7 @@ class every_node {
   }
   cron { 'puppet_cron':
     command => 'sh /root/puppet-apply.sh',
-    minute => "*/10",
+    minute => '*/10',
     user => "root",
   }
   package { 'tftp':
@@ -55,4 +55,23 @@ class every_node {
     gpgkey     => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6',
     require    => File['RPM-GPG-KEY-EPEL-6'],
   }
+  #En revision
+  #cron { 'ntpdate':
+  #  command => '/usr/sbin/ntpdate -u -s DIR.SVC.ACCENTURE.COM',
+  #  minute  => '*/30',
+  #  user    => 'root',
+  #}
+  #package { 'ganglia-gmond':
+  #  ensure  => installed,
+  #  require => Yumrepo['epel'],
+  #}
+  ## Requires $hostname attribute
+  #file { 'gmond.conf':
+  #  path    => '/etc/gmond.conf',
+  #  content => template('every_node/etc/gmond.conf.erb'),
+  #  owner   => 'ganglia',
+  #  group   => 'ganglia',
+  #  mode    => '644',
+  #  require => Package['ganglia-gmond'],
+  #}
 }

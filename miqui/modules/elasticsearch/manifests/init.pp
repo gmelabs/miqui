@@ -1,6 +1,6 @@
 class elasticsearch {
   
-  include 'worker_node'
+  include worker_node
   
   group { 'elastic':
     ensure => present,

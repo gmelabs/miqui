@@ -5,8 +5,8 @@ node 'vmmadbd00' {
   #include admin_node
   #include gitorious
   #include tomcat
-  #include ganglia::gmetad  #<-- TODO
-  #include ganglia::gweb    #<-- TODO
+  #include ganglia::gmetad  #<-- TODO (as part of admin_node)
+  #include ganglia::gweb    #<-- TODO (as part of admin_node)
 }
 node 'newnode' {
   include every_node
@@ -19,9 +19,7 @@ node 'master01.bigdata' {
 node 'worker01.bigdata' {
   include hadoop_slave
   include hadoop::master::nn_mirror
-  #class { 'elasticsearch':
-  #  hostname => 'worker01.bigdata',
-  #}
+  #include elasticsearch
 }
 node 'worker02.bigdata' {
   include hadoop_slave
@@ -29,11 +27,10 @@ node 'worker02.bigdata' {
 node 'lab01.bigdata' {
   include worker_node
   include virtualbox
-  
 }
 node 'lab02.bigdata' {
   include worker_node
-  include virtualbox  
+  include virtualbox
 }
 
 Package {  allow_virtual => true, }

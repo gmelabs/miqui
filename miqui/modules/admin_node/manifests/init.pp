@@ -6,13 +6,14 @@ class admin_node {
     owner  => 'root',
     group  => 'root',
   }
-  file { 'sshd.conf':
-    path   => '/etc/ssh/sshd_config',
-    source => 'puppet:///modules/admin_node/etc/ssh/sshd_config',
-    mode   => '0600',
-    owner  => 'root',
-    group  => 'root',
-  }
+# Commented if it is on every_node
+#  file { 'sshd.conf':
+#    path   => '/etc/ssh/sshd_config',
+#    source => 'puppet:///modules/admin_node/etc/ssh/sshd_config',
+#    mode   => '0600',
+#    owner  => 'root',
+#    group  => 'root',
+#  }
   file { 'eth0.conf':
     path   => '/etc/sysconfig/network-scripts/ifcfg-eth0',
     source => 'puppet:///modules/admin_node/etc/sysconfig/network-scripts/ifcfg-eth0',
