@@ -344,12 +344,13 @@ class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
   # ---------------------------------------------------------
   # do not modify beyond this line
   # ---------------------------------------------------------
-
+  # REVISAR ESTO!
   exec { "$execResourceId":
     unless  => "/bin/cat /proc/mounts | /bin/egrep -c '^${sharedDevice}':'${mountPath}[ ]' | /bin/egrep -c '^1'",
     command => "/bin/mount -t nfs4 ${sharedDevice}:${sharedPath} ${mountPath}",
     require  => File[$requiredResourceId],
   }
+  # \ REVISAR ESTO!
   mount { "$mountResourceId":
     name     => "${mountPath}",
     device   => "${sharedDevice}:${sharedPath}",
