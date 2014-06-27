@@ -55,12 +55,6 @@ class every_node {
     gpgkey     => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6',
     require    => File['RPM-GPG-KEY-EPEL-6'],
   }
-  #En revision
-  #cron { 'ntpdate':
-  #  command => '/usr/sbin/ntpdate -u -s DIR.SVC.ACCENTURE.COM',
-  #  minute  => '*/30',
-  #  user    => 'root',
-  #}
   #package { 'ganglia-gmond':
   #  ensure  => installed,
   #  require => Yumrepo['epel'],
