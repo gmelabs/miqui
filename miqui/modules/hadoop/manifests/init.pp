@@ -277,8 +277,33 @@ class hadoop {
   }
 }
 
-class hadoop::master::nn {
-  include hadoop::master::mount_data01_hadoop_nn_mirror
+class hadoop::master {
+  
+  include master_node
+  include hadoop
+  
+  # DATA LOCATIONS:
+  file { 'hadoop_folder':
+    path    => '/hadoop',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => User['hdadmin'],
+  }
+  file { 'hadoop_master_tmp':
+    path    => '/data01/hadoop/tmp',
+    ensure  => directory,
+    mode    => '0775',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['/data01'],
+  }
+}
+
+class hadoop::master::nn inherits hadoop::master {
+  # TODO Uncomment inclusion for applying mount class
+  #include hadoop::master::mount_data01_hadoop_nn_mirror
   # Ensure that mountPath directory exists
   file { 'hadoop_dfs':
     path    => '/data01/hadoop/dfs',
@@ -296,10 +321,99 @@ class hadoop::master::nn {
     group   => 'hadoop',
     require => File['hadoop_dfs'],
   }
-  
 }
-class hadoop::master::nn_mirror {
-  include hadoop::master::share_data01_hadoop_nn_mirror
+# TODO It's not working as expected. Temporarily disabled
+# Mounts an existing external shared folder...
+class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
+  $mountResourceId = 'mount-data01_hadoop_nn_mirror'
+  $execResourceId  = 'do-mount-data01_hadoop_nn_mirror'
+  $requiredResourceId = 'nfs_nn_mirror'
+  $mountPath = '/data01/hadoop/dfs/nfs_nn_mirror'
+  $sharedDevice = 'worker01.bigdata'
+  $sharedPath   = '/data01/hadoop/nn_mirror'
+  # ---------------------------------------------------------
+  # do not modify beyond this line
+  # ---------------------------------------------------------
+  # TODO REVISAR ESTO!
+  exec { "$execResourceId":
+    unless  => "/bin/cat /proc/mounts | /bin/egrep -c '^${sharedDevice}':'${mountPath}[ ]' | /bin/egrep -c '^1'",
+    command => "/bin/mount -t nfs4 ${sharedDevice}:${sharedPath} ${mountPath}",
+    require  => File[$requiredResourceId],
+  }
+  # \ TODO REVISAR ESTO!
+  mount { "$mountResourceId":
+    name     => "${mountPath}",
+    device   => "${sharedDevice}:${sharedPath}",
+    fstype   => 'nfs4',
+    ensure   => 'mounted',
+    options  => 'remount',
+    atboot   => true,
+    require  => Exec[$execResourceId],
+  }
+}
+# -------------------------------------------------------------------------------------------------
+# Hadoop slave node
+# -------------------------------------------------------------------------------------------------
+class hadoop::slave {
+  
+  include worker_node
+  include hadoop
+  
+  # DATA LOCATIONS:
+  file { 'data01_hadoop':
+    path    => '/data01/hadoop',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => [ File['data01'], User['hdadmin'] ],
+  }
+  file { 'data02_hadoop':
+    path    => '/data02/hadoop',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => [ File['data02'], User['hdadmin'] ],
+  }
+  file { 'data03_hadoop':
+    path    => '/data03/hadoop',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => [ File['data03'], User['hdadmin'] ],
+  }
+  file { 'data04_hadoop':
+    path    => '/data04/hadoop',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => [ File['data04'], User['hdadmin'] ],
+  }
+  file { 'data05_hadoop':
+    path    => '/data05/hadoop',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => [ File['data05'], User['hdadmin'] ],
+  }
+  file { 'data06_hadoop':
+    path    => '/data06/hadoop',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => [ File['data06'], User['hdadmin'] ],
+  }
+}
+# -------------------------------------------------------------------------------------------------
+# Mirror for namenode's metadata
+# -------------------------------------------------------------------------------------------------
+class hadoop::nn_mirror {
+  include hadoop::share_data01_hadoop_nn_mirror
   # Ensure that sharedPath directory exists
   file { 'nn_mirror':
     path    => '/data01/hadoop/nn_mirror',
@@ -307,12 +421,12 @@ class hadoop::master::nn_mirror {
     mode    => '0775',
     owner   => 'hdadmin',
     group   => 'hadoop',
-    require => File['data01_hadoop'],
+    #require => File['hadoop_folder'], # <- for real
+    require => File['data01_hadoop'],  # <- for virtual
   }
 }
-
 # Shares a directory using nfs
-class hadoop::master::share_data01_hadoop_nn_mirror inherits nfs::share {
+class hadoop::share_data01_hadoop_nn_mirror inherits nfs::share {
   $execResourceId = 'do-share-data01_hadoop_nn_mirror'
   $requiredResourceId = 'nn_mirror'
   $sharedPath = '/data01/hadoop/nn_mirror'
@@ -332,32 +446,4 @@ class hadoop::master::share_data01_hadoop_nn_mirror inherits nfs::share {
   }
   Exec["$execResourceId"] -> Exec['exportfs']
 }
-
-# Mounts an existing external shared folder...
-class hadoop::master::mount_data01_hadoop_nn_mirror inherits nfs::mount {
-  $mountResourceId = 'mount-data01_hadoop_nn_mirror'
-  $execResourceId  = 'do-mount-data01_hadoop_nn_mirror'
-  $requiredResourceId = 'nfs_nn_mirror'
-  $mountPath = '/data01/hadoop/dfs/nfs_nn_mirror'
-  $sharedDevice = 'worker01.bigdata'
-  $sharedPath   = '/data01/hadoop/nn_mirror'
-  # ---------------------------------------------------------
-  # do not modify beyond this line
-  # ---------------------------------------------------------
-  # REVISAR ESTO!
-  exec { "$execResourceId":
-    unless  => "/bin/cat /proc/mounts | /bin/egrep -c '^${sharedDevice}':'${mountPath}[ ]' | /bin/egrep -c '^1'",
-    command => "/bin/mount -t nfs4 ${sharedDevice}:${sharedPath} ${mountPath}",
-    require  => File[$requiredResourceId],
-  }
-  # \ REVISAR ESTO!
-  mount { "$mountResourceId":
-    name     => "${mountPath}",
-    device   => "${sharedDevice}:${sharedPath}",
-    fstype   => 'nfs4',
-    ensure   => 'mounted',
-    options  => 'remount',
-    atboot   => true,
-    require  => Exec[$execResourceId],
-  }
-}
+# -------------------------------------------------------------------------------------------------
