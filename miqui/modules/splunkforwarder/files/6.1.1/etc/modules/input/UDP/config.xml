@@ -1,0 +1,20 @@
+<!-- HEADER: This file is managed by puppet. -->
+<!-- HEADER: It cannot be managed manually, and it is definitely not recommended. -->
+<!--   Version 4.0 -->
+
+<!-- Copy this file to config.xml to enable this module. -->
+
+<module>
+	<pipeline name="udp" type="startup">
+		<processor name="udp" plugin="udpinputprocessor">
+			<config>
+			</config>
+		</processor>
+	
+		<processor name="residentSendOut" plugin="queueoutputprocessor">
+			<config>
+				<queueName>parsingQueue</queueName>
+			</config>
+		</processor>
+	</pipeline>
+</module>

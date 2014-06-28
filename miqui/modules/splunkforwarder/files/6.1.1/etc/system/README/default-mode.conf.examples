@@ -1,0 +1,16 @@
+# HEADER: This file is managed by puppet.
+# HEADER: It cannot be managed manually, and it is definitely not recommended.
+
+#   Version 6.1.1 
+#
+
+# re-enable the udp input on a SplunkLightForwarder
+
+[pipeline:udp]
+disabled = false
+
+# re-enable the tcp input on a SplunkLightForwarder
+
+[pipeline:tcp]
+disabled = false
+

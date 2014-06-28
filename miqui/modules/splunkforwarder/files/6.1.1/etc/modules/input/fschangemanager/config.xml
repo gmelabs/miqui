@@ -1,0 +1,17 @@
+<!-- HEADER: This file is managed by puppet. -->
+<!-- HEADER: It cannot be managed manually, and it is definitely not recommended. -->
+<!--   Version 4.0 -->
+                                                                                                                                       
+<module>
+     <pipeline name="fschangemanager" type="startup">
+         <processor name="fschangemanager" plugin="fschangemanagerprocessor">
+             <config>
+             </config>
+         </processor>
+         <processor name="sendIndex" plugin="queueoutputprocessor">
+            <config>
+                <queueName>parsingQueue</queueName>
+            </config>
+         </processor>
+     </pipeline>
+</module>
