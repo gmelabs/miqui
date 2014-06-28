@@ -1,3 +1,4 @@
+# TODO - definition of symlinks for "OVFs" and "Virtualbox VMs"
 class virtualbox {
   
   $requiredVBpackages = ['kernel-devel', 'gcc']

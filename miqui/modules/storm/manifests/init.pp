@@ -129,7 +129,7 @@ class storm {
     group   => 'storm',
     require => [ File['data01_storm'], User['stmadmin'] ],
   }
-  # TODO: Ojo que está escribiendo logs en $STORM_HOME/logs mucho más voluminosos
+  # TODO: Ojo que esta escribiendo logs en $STORM_HOME/logs mucho mas voluminosos
   # Estudiar la posibilidad de forzar un symlink a 'storm_log'
   file { 'storm_log':
     path    => '/data01/storm/logs',
