@@ -17,9 +17,11 @@ class ganglia::gmond {
     require => Package['ganglia-gmond'],
   }
 }
+# TODO - Manually installed. Please document it
 class ganglia::gmetad {
   
 }
+# TODO - Manually installed. Please document it
 class ganglia::gweb {
   
 }
