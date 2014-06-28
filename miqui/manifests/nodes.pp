@@ -1,28 +1,32 @@
 node 'vmmadbd00' {
-  #class { 'every_node':
-  #  hostname => 'admin.bigdata',
-  #}
+  #include every_node
   #include admin_node
   #include gitorious
   #include tomcat
-  #include ganglia::gmetad  #<-- TODO (as part of admin_node)
-  #include ganglia::gweb    #<-- TODO (as part of admin_node)
+  #include ganglia::gmetad
+  #include ganglia::gweb
 }
 node 'newnode' {
   include every_node
 }
 node 'master01.bigdata' {
-  include hadoop_master
-  include hadoop_old_demo
   include hadoop::master::nn
+  include hadoop_old_demo
+  # Warn: Storm and Zookeeper are not compatible as both use supervidord.conf
+  # Warn: This node listens on 8080 for storm UI
+  include storm::nimbus
 }
 node 'worker01.bigdata' {
-  include hadoop_slave
-  include hadoop::master::nn_mirror
+  include hadoop::slave
+  include hadoop::nn_mirror # Este fallara porque el mirror definido debe ir en un master
   #include elasticsearch
+  # Warn: Storm and Zookeeper are not compatible as both use supervidord.conf
+  include storm::supervisor
 }
 node 'worker02.bigdata' {
-  include hadoop_slave
+  include hadoop::slave
+  # Warn: Storm and Zookeeper are not compatible as both use supervidord.conf
+  include storm::supervisor
 }
 node 'lab01.bigdata' {
   include worker_node
