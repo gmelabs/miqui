@@ -8,7 +8,7 @@ export STMADMIN_SOFTWARE_PATH=/home/${STMADMIN_USER}/software
 export STMADMIN_RUNTIME_PATH=/home/${STMADMIN_USER}/runtime
 
 export STORM_INSTALLED_FLAG=/root/storm-installed-by-puppet
-export TFTP_SERVER=madbd00
+export TFTP_SERVER=vmmadbd00
 export TFTP_SOFTWARE_URI=software
 export STORM_TARBALL=storm-0.9.1-incubating.tgz
 export STORM_TARBALL_CONTENT=storm-0.9.1-incubating

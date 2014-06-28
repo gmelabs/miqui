@@ -13,7 +13,7 @@ export SPLADMIN_SOFTWARE_PATH=/home/${SPLADMIN_USER}/software
 export SPLADMIN_RUNTIME_PATH=/home/${SPLADMIN_USER}/runtime
 
 export SPLUNKFORWARDER_INSTALLED_FLAG=/root/splunkforwarder-installed-by-puppet
-export TFTP_SERVER=madbd00
+export TFTP_SERVER=vmmadbd00
 export TFTP_SOFTWARE_URI=software
 export SPLUNKFORWARDER_TARBALL=splunkforwarder-6.1.1.tgz
 export SPLUNKFORWARDER_TARBALL_CONTENT=splunkforwarder-6.1.1

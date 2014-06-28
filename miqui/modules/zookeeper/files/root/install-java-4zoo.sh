@@ -8,7 +8,7 @@ export ZKADMIN_SOFTWARE_PATH=/home/${ZKADMIN_USER}/software
 export ZKADMIN_RUNTIME_PATH=/home/${ZKADMIN_USER}/runtime
 
 export JAVA_INSTALLED_FLAG=/root/java-4zoo-installed-by-puppet
-export TFTP_SERVER=madbd00
+export TFTP_SERVER=vmmadbd00
 export TFTP_SOFTWARE_URI=software
 export JAVA_TARBALL=jdk-1.6.0_31.tgz
 export JAVA_TARBALL_CONTENT=jdk-1.6.0_31

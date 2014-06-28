@@ -8,7 +8,7 @@ export ZKADMIN_SOFTWARE_PATH=/home/${ZKADMIN_USER}/software
 export ZKADMIN_RUNTIME_PATH=/home/${ZKADMIN_USER}/runtime
 
 export ZOOKEEPER_INSTALLED_FLAG=/root/zookeeper-installed-by-puppet
-export TFTP_SERVER=madbd00
+export TFTP_SERVER=vmmadbd00
 export TFTP_SOFTWARE_URI=software
 export ZOOKEEPER_TARBALL=zookeeper-3.4.6.tgz
 export ZOOKEEPER_TARBALL_CONTENT=zookeeper-3.4.6

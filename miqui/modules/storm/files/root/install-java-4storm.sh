@@ -8,7 +8,7 @@ export STMADMIN_SOFTWARE_PATH=/home/${STMADMIN_USER}/software
 export STMADMIN_RUNTIME_PATH=/home/${STMADMIN_USER}/runtime
 
 export JAVA_INSTALLED_FLAG=/root/java-4storm-installed-by-puppet
-export TFTP_SERVER=madbd00
+export TFTP_SERVER=vmmadbd00
 export TFTP_SOFTWARE_URI=software
 export JAVA_TARBALL=jdk-1.6.0_31.tgz
 export JAVA_TARBALL_CONTENT=jdk-1.6.0_31

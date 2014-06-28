@@ -30,7 +30,7 @@ export ESADMIN_SOFTWARE_PATH=/home/${ESADMIN_USER}/software
 export ESADMIN_RUNTIME_PATH=/home/${ESADMIN_USER}/runtime
 
 export ELASTIC_INSTALLED_FLAG=/root/elasticsearch-installed-by-puppet
-export TFTP_SERVER=madbd00
+export TFTP_SERVER=vmmadbd00
 export TFTP_SOFTWARE_URI=software
 export ELASTIC_TARBALL=elasticsearch-1.2.1.tar.gz
 export ELASTIC_TARBALL_CONTENT=elasticsearch-1.2.1
