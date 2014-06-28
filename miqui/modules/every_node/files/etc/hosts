@@ -23,7 +23,7 @@
 #------------------------------------------------------------------------------------
 
 # Internal Virtual Machines
-192.168.1.50      qlikview.lab02.bigdata   # QlikView Server (Windows VM on Lab-1)
+192.168.1.50      qlikview.lab01.bigdata   # QlikView Server (Windows VM on Lab-1)
 192.168.1.51      splunk.lab02.bigdata     # Splunk Server (Linux VM on Lab-2)
 #------------------------------------------------------------------------------------
 
