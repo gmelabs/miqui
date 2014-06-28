@@ -5,19 +5,26 @@
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
 #------------------------------------------------------------------------------------
-192.168.1.11  master01.bigdata  # Nodo maestro Nº 1 cluster big data
-192.168.1.12  master02.bigdata  # Nodo maestro Nº 2 cluster big data
+192.168.1.11      master01.bigdata  # Master node Nº 1 Big Data cluster
+192.168.1.12      master02.bigdata  # Master node Nº 2 Big Data cluster
 #====================================================================================
-192.168.1.21  worker01.bigdata  # Nodo de trabajo Nº 1 cluster big data
-192.168.1.22  worker02.bigdata  # Nodo de trabajo Nº 2 cluster big data
-192.168.1.23  worker03.bigdata  # Nodo de trabajo Nº 3 cluster big data
-192.168.1.24  worker04.bigdata  # Nodo de trabajo Nº 4 cluster big data
+192.168.1.21      worker01.bigdata  # Worker node Nº 1 Big Data cluster
+192.168.1.22      worker02.bigdata  # Worker node Nº 2 Big Data cluster
+192.168.1.23      worker03.bigdata  # Worker node Nº 3 Big Data cluster
+192.168.1.24      worker04.bigdata  # Worker node Nº 4 Big Data cluster
 #------------------------------------------------------------------------------------
-192.168.1.31  lab01.bigdata     # Nodo de trabajo Nº 5 cluster big data / Lab-1
-192.168.1.32  lab02.bigdata     # Nodo de trabajo Nº 6 cluster big data / Lab-2
+192.168.1.31      lab01.bigdata     # Worker node Nº 5 Big Data cluster / Lab-1
+192.168.1.32      lab02.bigdata     # Worker node Nº 6 Big Data cluster / Lab-2
 #------------------------------------------------------------------------------------
-192.168.1.41  shared01.bigdata  # Nodo de trabajo Nº 7 cluster big data / Shared-1
-192.168.1.42  shared02.bigdata  # Nodo de trabajo Nº 8 cluster big data / Shared-2
+192.168.1.41      shared01.bigdata  # Worker node Nº 7 Big Data cluster / Shared-1
+192.168.1.42      shared02.bigdata  # Worker node Nº 8 Big Data cluster / Shared-2
 #------------------------------------------------------------------------------------
-192.168.1.29  vmmadbd00         # Nodo de administracion
+192.168.1.29      vmmadbd00         # Administration node
 #------------------------------------------------------------------------------------
+
+# Internal Virtual Machines
+192.168.1.50      qlikview.lab02.bigdata   # QlikView Server (Windows VM on Lab-1)
+192.168.1.51      splunk.lab02.bigdata     # Splunk Server (Linux VM on Lab-2)
+#------------------------------------------------------------------------------------
+
+
