@@ -1,5 +1,7 @@
 class every_node {
   
+  include ntp
+  
   file { 'hosts':
     path   => '/etc/hosts',
     source => 'puppet:///modules/every_node/etc/hosts',
