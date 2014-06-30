@@ -19,11 +19,11 @@
 
 ########### These MUST be filled in for a storm configuration
 storm.zookeeper.servers:
-      - "worker02.bigdata"
+      - "worker01.bigdata"
 #
 storm.local.dir: "/data01/storm/data"
 #
-nimbus.host: "master02.bigdata"
+nimbus.host: "master01.bigdata"
 #
 # Configured to run up to 4 workers on this machine, on these ports
 supervisor.slots.ports:
