@@ -22,7 +22,8 @@ node 'worker01.bigdata' {
   #include elasticsearch
   # Warn: Storm and Zookeeper are not compatible as both use supervidord.conf
   include storm::supervisor
-  include spark1
+  #TODO: temporary disable. Puppet not run correctly.
+  #include spark1
 }
 node 'worker02.bigdata' {
   include hadoop::slave
