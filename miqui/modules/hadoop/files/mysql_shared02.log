@@ -1,13 +1,13 @@
 ############################################################
 # 
-# Instalado MySQL en Shared02, sin arranque automatico.
-# Creado modelo de datos de Hive Metastore y usuario hive.
+# Instalado MySQL en {MAQUINA_X}, sin arranque automatico.
+# Creado modelo de datos de Hive Metastore y usuario para hive.
 # Configurada para que root@% pueda logarse.
-# Usuarios miqui, javi y santi
+# Usuario miqui
 # 
 ############################################################
 # _________________________________________________________________________________________________
-#[root@madbd00]#
+#[root@vmmadbd00]#
 cd /var/lib/tftpboot/software && wget https://downloads.mariadb.org/interstitial/mariadb-5.5.38/bintar-centos5-amd64/mariadb-5.5.38-linux-x86_64.tar.gz/from/http://ftp.wa.co.za/pub/mariadb -O ORIGINAL_mariadb-5.5.38.tgz
 rm -fr mariadb
 chmod 700 ORIGINAL_mariadb-5.5.38.tgz
@@ -43,10 +43,10 @@ rm -fr mariadb-5.5.38/
 mkdir lib
 # Driver MariaDB copiado por scp desde local a /root
 mv /root/mariadb-java-client-1.1.7.jar lib/.
-ssh shared02.bigdata
+ssh MAQUINA_X
 #
 # _________________________________________________________________________________________________
-#[root@shared02.bigdata]#
+#[root@MAQUINA_X]#
 service iptables stop
 service ip6tables stop
 chkconfig iptables off
@@ -60,7 +60,7 @@ export FLAG=/root/mysql-installed-by-puppet
 #
 export SW_PATH=/home/$THEUSER/software
 export RT_PATH=/home/$THEUSER/runtime
-export TFTP_SERVER=madbd00
+export TFTP_SERVER=vmmadbd00
 export TFTP_SOFTWARE_URI=software
 export TARBALL=mariadb-5.5.38.tgz
 export TARBALL_CONTENT=mariadb-5.5.38
@@ -106,7 +106,7 @@ chown mysql:mysql $MYCONF
 #
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # PARENTESIS:
-tftp madbd00 -c get software/hive-0.13.1.tgz /tmp/hive-0.13.1.tgz
+tftp vmmadbd00 -c get software/hive-0.13.1.tgz /tmp/hive-0.13.1.tgz
 chown mysql:mysql /tmp/hive-0.13.1.tgz
 su - mysql -c "tar xvf /tmp/hive-0.13.1.tgz --directory=/home/mysql/software"
 su - mysql -c "ln -s /home/mysql/software/hive-0.13.1 /home/mysql/runtime/hive"
@@ -115,7 +115,7 @@ su - mysql -c "ln -s /home/mysql/software/hive-0.13.1 /home/mysql/runtime/hive"
 su - mysql
 #
 # _________________________________________________________________________________________________
-#[mysql@shared02.bigdata]$
+#[mysql@MAQUINA_X]$
 cd /home/mysql/runtime/mysql && ./scripts/mysql_install_db --defaults-file=~/.my.cnf
 # To start mysqld at boot time you have to copy
 # support-files/mysql.server to the right place for your system
