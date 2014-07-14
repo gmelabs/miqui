@@ -15,6 +15,6 @@
 cd
 userdel -fr spkadmin
 groupdel spark
-rm -f install-spark1.sh spark1-install*
+rm -f install-spark1.sh spark1-install* install-java-4spk.sh java-4spk-install*
 rm -fr /data01/spark1
 # -----------------------------------------------------------------------------------
