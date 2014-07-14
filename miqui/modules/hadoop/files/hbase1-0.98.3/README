@@ -1,0 +1,17 @@
+When Should I Use HBase?
+
+HBase isn't suitable for every problem.
+
+First, make sure you have enough data. If you have hundreds of millions or billions of rows,
+then HBase is a good candidate.
+If you only have a few thousand/million rows, then using a traditional RDBMS might be a better
+choice due to the fact that all of your data might wind up on a single node (or two)
+and the rest of the cluster may be sitting idle.
+
+Second, make sure you can live without all the extra features that an RDBMS provides
+(e.g., typed columns, secondary indexes, transactions, advanced query languages, etc.)
+An application built against an RDBMS cannot be "ported" to HBase by simply changing a JDBC driver,
+for example. Consider moving from an RDBMS to HBase as a complete redesign as opposed to a port.
+
+Third, make sure you have enough hardware.
+Even HDFS doesn't do well with anything less than 5 DataNodes, plus a NameNode.
