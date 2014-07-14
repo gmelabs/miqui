@@ -121,6 +121,14 @@ class hadoop {
     group   => 'hadoop',
     require => File['hadoop-installed.flag'],
   }
+  file { 'hadoop_webapp_static_dir':
+    path    => '/home/hdadmin/software/hadoop-1.2.1/webapps/static',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hadoop-installed.flag'],
+  }
   
   # CONFIG FILES:
   file { 'capacity-scheduler':
@@ -275,6 +283,55 @@ class hadoop {
     group   => 'hadoop',
     require => File['hadoop_conf_dir'],
   }
+  
+  file { 'hadoop_static_banner':
+    path    => '/home/hdadmin/software/hadoop-1.2.1/webapps/static/banner.jpg',
+    source  => 'puppet:///modules/hadoop/webapps/static/banner.jpg',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hadoop_webapp_static_dir'],
+  }
+  file { 'hadoop_static_logo':
+    path    => '/home/hdadmin/software/hadoop-1.2.1/webapps/static/hadoop-logo.jpg',
+    source  => 'puppet:///modules/hadoop/webapps/static/hadoop-logo.jpg',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hadoop_webapp_static_dir'],
+  }
+  file { 'hadoop_static_css':
+    path    => '/home/hdadmin/software/hadoop-1.2.1/webapps/static/hadoop.css',
+    source  => 'puppet:///modules/hadoop/webapps/static/hadoop.css',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hadoop_webapp_static_dir'],
+  }
+  file { 'hadoop_static_jobconf.xsl':
+    path    => '/home/hdadmin/software/hadoop-1.2.1/webapps/static/jobconf.xsl',
+    source  => 'puppet:///modules/hadoop/webapps/static/jobconf.xsl',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hadoop_webapp_static_dir'],
+  }
+  file { 'hadoop_static_jt.js':
+    path    => '/home/hdadmin/software/hadoop-1.2.1/webapps/static/jobtracker.js',
+    source  => 'puppet:///modules/hadoop/webapps/static/jobtracker.js',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hadoop_webapp_static_dir'],
+  }
+  file { 'hadoop_static_sorttable.js':
+    path    => '/home/hdadmin/software/hadoop-1.2.1/webapps/static/sorttable.js',
+    source  => 'puppet:///modules/hadoop/webapps/static/sorttable.js',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hadoop_webapp_static_dir'],
+  }
 }
 
 class hadoop::master {
@@ -302,9 +359,6 @@ class hadoop::master {
 }
 
 class hadoop::master::nn inherits hadoop::master {
-  # TODO Uncomment inclusion for applying mount class
-  #include hadoop::master::mount_data01_hadoop_nn_mirror
-  # Ensure that mountPath directory exists
   file { 'hadoop_dfs':
     path    => '/data01/hadoop/dfs',
     ensure  => directory,
@@ -313,14 +367,17 @@ class hadoop::master::nn inherits hadoop::master {
     group   => 'hadoop',
     require => File['hadoop_folder'],
   }
-  file { 'nfs_nn_mirror':
-    path    => '/data01/hadoop/dfs/nfs_nn_mirror',
-    ensure  => directory,
-    mode    => '0775',
-    owner   => 'hdadmin',
-    group   => 'hadoop',
-    require => File['hadoop_dfs'],
-  }
+  ## TODO Uncomment inclusion for applying mount class
+  #include hadoop::master::mount_data01_hadoop_nn_mirror
+  ## Ensure that mountPath directory exists
+  #file { 'nfs_nn_mirror':
+  #  path    => '/data01/hadoop/dfs/nfs_nn_mirror',
+  #  ensure  => directory,
+  #  mode    => '0775',
+  #  owner   => 'hdadmin',
+  #  group   => 'hadoop',
+  #  require => File['hadoop_dfs'],
+  #}
 }
 # TODO It's not working as expected. Temporarily disabled
 # Mounts an existing external shared folder...
@@ -447,3 +504,234 @@ class hadoop::share_data01_hadoop_nn_mirror inherits nfs::share {
   Exec["$execResourceId"] -> Exec['exportfs']
 }
 # -------------------------------------------------------------------------------------------------
+# Hive Server
+# -----------
+# To Start hiveserver:
+# [@shared02] cd /home/mysql/runtime/mysql && nohup ./bin/mysqld_safe --defaults-file=/home/mysql/.my.cnf --port=3306 --socket=/data01/mysql/mysql.sock --datadir=/data01/mysql/data --log-error=/data01/mysql/logs/mysqld.log --pid-file=/data01/mysql/mysqld.pid >> /data01/mysql/logs/mysqld_nohup &
+# [@master01] su - hdadmin -c "nohup /home/hdadmin/runtime/hive/bin/hive --service metastore  >> /data01/hive/logs/nohup_metastore.out &"
+# [@master01] su - hdadmin -c "nohup /home/hdadmin/runtime/hive/bin/hive --service hiveserver >> /data01/hive/logs/nohup_hiveserver.out &"
+# -------------------------------------------------------------------------------------------------
+class hadoop::hiveserver {
+  
+  include hadoop
+  
+  file { 'install-hiveserver':
+    path   => '/root/install-hiveserver.sh',
+    source => 'puppet:///modules/hadoop/root/install-hiveserver.sh',
+    mode   => '0700',
+  }
+  
+  exec { 'do-install-hiveserver':
+    command => '/root/install-hiveserver.sh > /root/hiveserver-install.log',
+    creates => '/root/hiveserver-installed-by-puppet',
+    require => [
+      File['install-hiveserver', 'hdsoftware', 'hdruntime'],
+      User['hdadmin'],
+      Package['tftp'],
+    ],
+  }
+  file { 'hiveserver-installed.flag':
+    path => '/root/hiveserver-installed-by-puppet',
+    require => Exec['do-install-hiveserver'],
+  }
+  
+  file { 'hiveserver_conf_dir':
+    path    => '/home/hdadmin/software/hive-0.13.1/conf',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hiveserver-installed.flag'],
+  }
+  
+  # CONFIG FILES:
+  file { 'hive-env.sh':
+    path    => '/home/hdadmin/software/hive-0.13.1/conf/hive-env.sh',
+    source  => 'puppet:///modules/hadoop/hive-0.13.1/conf/hive-env.sh',
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hiveserver_conf_dir'],
+  }
+  file { 'hive-exec-log4j.properties':
+    path    => '/home/hdadmin/software/hive-0.13.1/conf/hive-exec-log4j.properties',
+    source  => 'puppet:///modules/hadoop/hive-0.13.1/conf/hive-exec-log4j.properties',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hiveserver_conf_dir'],
+  }
+  file { 'hive-log4j.properties':
+    path    => '/home/hdadmin/software/hive-0.13.1/conf/hive-log4j.properties',
+    source  => 'puppet:///modules/hadoop/hive-0.13.1/conf/hive-log4j.properties',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hiveserver_conf_dir'],
+  }
+  file { 'hive-site.xml':
+    path    => '/home/hdadmin/software/hive-0.13.1/conf/hive-site.xml',
+    source  => 'puppet:///modules/hadoop/hive-0.13.1/conf/hive-site.xml',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hiveserver_conf_dir'],
+  }
+  
+  # DATA LOCATIONS:
+  file { 'data01_hive':
+    path    => '/data01/hive',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => [ File['/data01'], User['hdadmin'] ],
+  }
+  file { 'hive_tmp':
+    path    => '/data01/hive/tmp',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['data01_hive'],
+  }
+  file { 'hive_logs':
+    path    => '/data01/hive/logs',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['data01_hive'],
+  }
+}
+# -------------------------------------------------------------------------------------------------
+# HBase for Hadoop1
+# -------------------------------------------------------------------------------------------------
+class hadoop::hbase1 {
+  
+  include hadoop
+  
+  file { 'install-hbase1':
+    path   => '/root/install-hbase1.sh',
+    source => 'puppet:///modules/hadoop/root/install-hbase1.sh',
+    mode   => '0700',
+  }
+  
+  exec { 'do-install-hbase1':
+    command => '/root/install-hbase1.sh > /root/hbase1-install.log',
+    creates => '/root/hbase1-installed-by-puppet',
+    require => [
+      File['install-hbase1', 'hdsoftware', 'hdruntime'],
+      User['hdadmin'],
+      Package['tftp'],
+    ],
+  }
+  file { 'hbase1-installed.flag':
+    path => '/root/hbase1-installed-by-puppet',
+    require => Exec['do-install-hbase1'],
+  }
+  
+  file { 'hbase1_conf_dir':
+    path    => '/home/hdadmin/software/hbase-0.98.3-hadoop1/conf',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hbase1-installed.flag'],
+  }
+  
+  # CONFIG FILES:
+  file { 'hbase1-hadoop-metrics2.properties':
+    path    => '/home/hdadmin/software/hbase-0.98.3-hadoop1/conf/hadoop-metrics2-hbase.properties',
+    source  => 'puppet:///modules/hadoop/hbase1-0.98.3/conf/hadoop-metrics2-hbase.properties',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hbase1_conf_dir'],
+  }
+  file { 'hbase1-env.sh':
+    path    => '/home/hdadmin/software/hbase-0.98.3-hadoop1/conf/hbase-env.sh',
+    source  => 'puppet:///modules/hadoop/hbase1-0.98.3/conf/hbase-env.sh',
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hbase1_conf_dir'],
+  }
+  file { 'hbase1-policy.xml':
+    path    => '/home/hdadmin/software/hbase-0.98.3-hadoop1/conf/hbase-policy.xml',
+    source  => 'puppet:///modules/hadoop/hbase1-0.98.3/conf/hbase-policy.xml',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hbase1_conf_dir'],
+  }
+  file { 'hbase1-site.xml':
+    path    => '/home/hdadmin/software/hbase-0.98.3-hadoop1/conf/hbase-site.xml',
+    source  => 'puppet:///modules/hadoop/hbase1-0.98.3/conf/hbase-site.xml',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hbase1_conf_dir'],
+  }
+  file { 'hbase1-log4j.properties':
+    path    => '/home/hdadmin/software/hbase-0.98.3-hadoop1/conf/log4j.properties',
+    source  => 'puppet:///modules/hadoop/hbase1-0.98.3/conf/log4j.properties',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hbase1_conf_dir'],
+  }
+  file { 'hbase1-regionservers':
+    path    => '/home/hdadmin/software/hbase-0.98.3-hadoop1/conf/regionservers',
+    source  => 'puppet:///modules/hadoop/hbase1-0.98.3/conf/regionservers',
+    mode    => '0644',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => File['hbase1_conf_dir'],
+  }
+}
+# Only for semantics. Not sure it's needed
+class hadoop::hbase1::htable {
+  
+  include hadoop::hbase1
+  
+  # DATA LOCATIONS:
+  file { 'data01_hbase1':
+    path    => '/data01/hbase',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => [ File['data01'], User['hdadmin'] ],
+  }
+}
+# This class should be applied on a "master" server. It is where HBase will be started/stoped from
+class hadoop::hbase1::master {
+  
+  include hadoop::hbase1
+  
+  # DATA LOCATIONS:
+  file { 'data01_hbase1':
+    path    => '/data01/hbase',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => [ File['/data01'], User['hdadmin'] ],
+  }
+}
+# Ensure you include each node you apply this class to in regionservers file
+class hadoop::hbase1::regionserver {
+  
+  include hadoop::hbase1
+  
+  # DATA LOCATIONS:
+  file { 'data01_hbase1':
+    path    => '/data01/hbase',
+    ensure  => directory,
+    mode    => '0755',
+    owner   => 'hdadmin',
+    group   => 'hadoop',
+    require => [ File['data01'], User['hdadmin'] ],
+  }
+}
