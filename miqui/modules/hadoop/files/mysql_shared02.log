@@ -1,0 +1,160 @@
+############################################################
+# 
+# Instalado MySQL en Shared02, sin arranque automatico.
+# Creado modelo de datos de Hive Metastore y usuario hive.
+# Configurada para que root@% pueda logarse.
+# Usuarios miqui, javi y santi
+# 
+############################################################
+# _________________________________________________________________________________________________
+#[root@madbd00]#
+cd /var/lib/tftpboot/software && wget https://downloads.mariadb.org/interstitial/mariadb-5.5.38/bintar-centos5-amd64/mariadb-5.5.38-linux-x86_64.tar.gz/from/http://ftp.wa.co.za/pub/mariadb -O ORIGINAL_mariadb-5.5.38.tgz
+rm -fr mariadb
+chmod 700 ORIGINAL_mariadb-5.5.38.tgz
+tar xvf ORIGINAL_mariadb-5.5.38.tgz
+mv mariadb-5.5.38-linux-x86_64 mariadb-5.5.38
+chown root:root mariadb-5.5.38
+rm -fr mariadb-5.5.38/data/
+rm -fr mariadb-5.5.38/docs/
+rm -fr mariadb-5.5.38/mysql-test/
+rm -fr mariadb-5.5.38/share/czech/
+rm -fr mariadb-5.5.38/share/danish/
+rm -fr mariadb-5.5.38/share/dutch/
+rm -fr mariadb-5.5.38/share/estonian/
+rm -fr mariadb-5.5.38/share/french/
+rm -fr mariadb-5.5.38/share/german/
+rm -fr mariadb-5.5.38/share/greek/
+rm -fr mariadb-5.5.38/share/hungarian/
+rm -fr mariadb-5.5.38/share/italian/
+rm -fr mariadb-5.5.38/share/japanese/
+rm -fr mariadb-5.5.38/share/korean/
+rm -fr mariadb-5.5.38/share/norwegian
+rm -fr mariadb-5.5.38/share/norwegian-ny
+rm -fr mariadb-5.5.38/share/polish/
+rm -fr mariadb-5.5.38/share/portuguese/
+rm -fr mariadb-5.5.38/share/romanian/
+rm -fr mariadb-5.5.38/share/russian/
+rm -fr mariadb-5.5.38/share/serbian/
+rm -fr mariadb-5.5.38/share/slovak/
+rm -fr mariadb-5.5.38/share/swedish/
+rm -fr mariadb-5.5.38/share/ukrainian/
+tar zcvf mariadb-5.5.38.tgz mariadb-5.5.38/
+rm -fr mariadb-5.5.38/
+mkdir lib
+# Driver MariaDB copiado por scp desde local a /root
+mv /root/mariadb-java-client-1.1.7.jar lib/.
+ssh shared02.bigdata
+#
+# _________________________________________________________________________________________________
+#[root@shared02.bigdata]#
+service iptables stop
+service ip6tables stop
+chkconfig iptables off
+chkconfig ip6tables off
+useradd mysql
+echo -e 'export MYSQL_HOME=/home/mysql/runtime/mysql\n\nexport PATH=$MYSQL_HOME/bin:$PATH' >> /home/mysql/.bashrc
+#------------------------------------------
+export THEUSER=mysql
+export THEGROUP=mysql
+export FLAG=/root/mysql-installed-by-puppet
+#
+export SW_PATH=/home/$THEUSER/software
+export RT_PATH=/home/$THEUSER/runtime
+export TFTP_SERVER=madbd00
+export TFTP_SOFTWARE_URI=software
+export TARBALL=mariadb-5.5.38.tgz
+export TARBALL_CONTENT=mariadb-5.5.38
+#
+chmod 750 /home/$THEUSER
+mkdir /home/$THEUSER/software
+mkdir /home/$THEUSER/runtime
+chown $THEUSER:$THEGROUP /home/$THEUSER/*
+chmod 755 /home/$THEUSER/*
+#
+tftp $TFTP_SERVER -c get $TFTP_SOFTWARE_URI/$TARBALL /tmp/$TARBALL
+chown $THEUSER:$THEGROUP /tmp/$TARBALL
+su - $THEUSER -c "tar xvf /tmp/$TARBALL --directory=$SW_PATH/"
+su - $THEUSER -c "ln -s $SW_PATH/$TARBALL_CONTENT $RT_PATH/mysql"
+echo -e "MySQL installed by puppet. Don't delete this file.\n" > $FLAG
+chmod 400 $FLAG
+# ---------------------------------------------------------------------
+export MYDATA_HOME=/data01/mysql
+export MYDATA=$MYDATA_HOME/data
+export MYLOGS=$MYDATA_HOME/logs
+export MYCONF=/home/mysql/.my.cnf
+mkdir -p $MYDATA
+mkdir -p $MYLOGS
+chown mysql:mysql $MYDATA_HOME $MYDATA
+rm -fr $MYCONF
+echo [client]                                            >> $MYCONF
+echo [mysqld]                                            >> $MYCONF
+echo temp-pool                                           >> $MYCONF
+echo loose-innodb_data_file_path = ibdata1:1000M         >> $MYCONF
+echo loose-mutex-deadlock-detector                       >> $MYCONF
+echo gdb                                                 >> $MYCONF
+echo data=$MYDATA                                        >> $MYCONF
+echo language=$RT_PATH/mysql/share/spanish               >> $MYCONF
+echo bind-address = 0.0.0.0                              >> $MYCONF
+echo [mysqldump]                                         >> $MYCONF
+echo quick                                               >> $MYCONF
+echo set-variable = max_allowed_packet=16M               >> $MYCONF
+echo [mysql]                                             >> $MYCONF
+echo no-auto-rehash                                      >> $MYCONF
+echo [myisamchk]                                         >> $MYCONF
+echo set-variable= key_buffer=128M                       >> $MYCONF
+chown mysql:mysql $MYCONF
+#
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# PARENTESIS:
+tftp madbd00 -c get software/hive-0.13.1.tgz /tmp/hive-0.13.1.tgz
+chown mysql:mysql /tmp/hive-0.13.1.tgz
+su - mysql -c "tar xvf /tmp/hive-0.13.1.tgz --directory=/home/mysql/software"
+su - mysql -c "ln -s /home/mysql/software/hive-0.13.1 /home/mysql/runtime/hive"
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#
+su - mysql
+#
+# _________________________________________________________________________________________________
+#[mysql@shared02.bigdata]$
+cd /home/mysql/runtime/mysql && ./scripts/mysql_install_db --defaults-file=~/.my.cnf
+# To start mysqld at boot time you have to copy
+# support-files/mysql.server to the right place for your system
+#
+# start mysql
+cd /home/mysql/runtime/mysql && nohup ./bin/mysqld_safe --defaults-file=/home/mysql/.my.cnf --port=3306 --socket=/data01/mysql/mysql.sock --datadir=/data01/mysql/data --log-error=/data01/mysql/logs/mysqld.log --pid-file=/data01/mysql/mysqld.pid >> /data01/mysql/logs/mysqld_nohup &
+# PLEASE REMEMBER TO SET A PASSWORD FOR THE MariaDB root USER !
+# set password
+cd /home/mysql/runtime/mysql && ./bin/mysqladmin --defaults-file=/home/mysql/.my.cnf --port=3306 --socket=/data01/mysql/mysql.sock -u root password '{ESCRIBE_TU_PASSWORD_ROOT}'
+cd /home/mysql/runtime/mysql && ./bin/mysqladmin --defaults-file=/home/mysql/.my.cnf --port=3306 --socket=/data01/mysql/mysql.sock -u root -h shared02.bigdata password '{ESCRIBE_TU_PASSWORD_ROOT2}'
+# CLI
+cd /home/mysql/runtime/mysql && ./bin/mysql --defaults-file=~/.my.cnf --socket=/data01/mysql/mysql.sock -u root -p
+##
+##
+CREATE DATABASE hivemetastore;
+USE hivemetastore;
+SOURCE /home/mysql/runtime/hive/scripts/metastore/upgrade/mysql/hive-schema-0.13.0.mysql.sql
+CREATE USER '{ESCRIBE_AQUI_TU_USUARIO_PARA_HIVE}'@'%' IDENTIFIED BY '{ESCRIBE_AQUI_SU_PASSWORD}';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM '{ESCRIBE_AQUI_TU_USUARIO_PARA_HIVE}'@'%';
+GRANT SELECT,INSERT,UPDATE,DELETE,LOCK TABLES,EXECUTE ON hivemetastore.* TO '{ESCRIBE_AQUI_TU_USUARIO_PARA_HIVE}'@'%';
+FLUSH PRIVILEGES;
+quit;
+##
+##
+## + GRANT ALL ON *.* TO 'miqui'@'madbd00' IDENTIFIED BY '*******';
+## + GRANT GRANT OPTION ON *.* TO 'miqui'@'madbd00';
+##
+## Luego, desde Heidi conecto con usuario miqui, clono el root@localhost como root@% y elimino usuario miqui o le cambio la password
+## 
+#
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# PARENTESIS:
+rm -fr /home/mysql/runtime/hive
+rm -fr /home/mysql/software/hive-0.13.1
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#
+exit
+# _________________________________________________________________________________________________
+exit
+# _________________________________________________________________________________________________
+exit
+# _________________________________________________________________________________________________
