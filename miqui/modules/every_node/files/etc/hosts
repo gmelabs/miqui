@@ -2,7 +2,6 @@
 # HEADER: It cannot be managed manually, and it is definitely not recommended.
 
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
 #------------------------------------------------------------------------------------
 192.168.1.11      master01.bigdata  # Master node Nº 1 Big Data cluster
@@ -23,8 +22,12 @@
 #------------------------------------------------------------------------------------
 
 # Internal Virtual Machines
-192.168.1.50      qlikview.lab01.bigdata   # QlikView Server (Windows VM on Lab-1)
-192.168.1.51      splunk.lab02.bigdata     # Splunk Server (Linux VM on Lab-2)
+#------------------------------------------------------------------------------------
+# IP               NAME                   DESCRIPTION       OS         HOST
+# -------------   ---------------------   ---------------- ---------   -------------
+192.168.1.50      qlikview.bigdata      # QlikView Server  [Windows] @ lab01.bigdata
+192.168.1.51      splunk01.bigdata      # Splunk Server    [Linux  ] @ lab02.bigdata
+192.168.1.52      winadmin.bigdata      # Administration   [Windows] @ lab01.bigdata
 #------------------------------------------------------------------------------------
 
 
